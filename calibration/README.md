@@ -24,6 +24,6 @@
  [  0.           0.           1.           0.        ]]
 ```
 
-5. Now the image can be undistorted.
+5. Now the image can be undistorted with `cv2.undistort()`.
 
 ![Undistorted_image](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/calibration/Undistorted_image.png)
