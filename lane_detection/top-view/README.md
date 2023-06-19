@@ -41,15 +41,19 @@
      - s_binary - convert to HLS color space, treshold s-channel, in the formula it is with negation to remove big part of the white lines
 ![middle_warp](detected_lane/middle_warp.jpg)
 ![middle_treshold](detected_lane/middle_treshold.jpg)
-4. Find middle line pixels in image with sliding windows
-
+4. Apply GaussianBlur with kernel=21 to smooth lines and make a histogram of the bottom half/third, find peaks with `scipy.signal.find_peaks` - these are the starting points for sliding windows. 
+   <p align="center">
+     <img src="detected_lane/hist1.jpg" width="450" title="hist1">
+     <img src="detected_lane/hist2.jpg" width="450" title="hist2">
+   </p>
+   
    ![warp_edge_window](detected_lane/warp_edge_window.jpg)
    ![middle_windowed](detected_lane/middle_windowed.jpg)
-5. Fit polynomial with `np.polyfit()` and draw a polyline on the empty image
+6. Fit polynomial with `np.polyfit()` and draw a polyline on the empty image
    
    ![fit_lines](detected_lane/fit_lines.jpg)
    ![middle_fited](detected_lane/middle_fited.jpg)
-6. Unwarp this image using `inverse_matrix` and combine with original image using `cv2.addWeighted()`
+7. Unwarp this image using `inverse_matrix` and combine with original image using `cv2.addWeighted()`
     
    ![detected_lines](detected_lane/detected_lines.jpg)
    ![middle_detected_line](detected_lane/middle_detected_line.jpg)   
