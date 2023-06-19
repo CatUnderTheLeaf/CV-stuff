@@ -2,7 +2,7 @@
 
 0. For testing purposes unzip archiv in the [images folder](images)
 1. [Calibrate your camera and undistort images](../calibration) (images in zip are already undistorted)
-2. Get matrices for perspective transformation and warp images:
+2. Get matrices for perspective transformation:
    - I got them automatically using my ROS package [`PathFromImage`](https://github.com/CatUnderTheLeaf/path_from_image) that I used in [`rosRoboCar`](https://github.com/CatUnderTheLeaf/rosRoboCar) project. For this purpose you need to broadcast CameraInfo, robot URDF model and TF
      ```
      transform_matrix = np.array(
@@ -29,11 +29,27 @@
       transform_matrix = cv2.getPerspectiveTransform(src, dst)
       inverse_matrix = cv2.getPerspectiveTransform(dst, src)
      ```
-3. Make a thresholded binary image. In my case I had to catch yellow middle line. I combined `yellow_output[(sxbinary == 1) & (lab_binary == 1) & (s_binary != 1)] = 1`, where:
-   - lab_binary - convert to LAB color space and treshold b-channel (for yellow and blue colors)
-   - sxbinary - convert to HLS color space, apply Sobel Operator in x-direction of the l-channel and treshold it
-   - s_binary - convert to HLS color space, treshold s-channel, in the formula it is with negation to remove big part of the white lines
+3. Make a thresholded binary image. I tried two methods:
+   - convert to grey, apply GaussianBlur with kernel=5, apply Canny Edge Detector and warp image 
+![grey](detected_lane/gray.jpg)
+![blur](detected_lane/blur.jpg)
+![edge](detected_lane/edge.jpg)
+![warp_edge](detected_lane/warp_edge.jpg)
+   - catch yellow middle line. First I warped image and then made a combined treshold `yellow_output[(sxbinary == 1) & (lab_binary == 1) & (s_binary != 1)] = 1`, where:
+     - lab_binary - convert to LAB color space and treshold b-channel (for yellow and blue colors)
+     - sxbinary - convert to HLS color space, apply Sobel Operator in x-direction of the l-channel and treshold it
+     - s_binary - convert to HLS color space, treshold s-channel, in the formula it is with negation to remove big part of the white lines
+![middle_warp](detected_lane/middle_warp.jpg)
+![middle_treshold](detected_lane/middle_treshold.jpg)
 4. Find middle line pixels in image with sliding windows
+
+   ![warp_edge_window](detected_lane/warp_edge_window.jpg)
+   ![middle_windowed](detected_lane/middle_windowed.jpg)
 5. Fit polynomial with `np.polyfit()` and draw a polyline on the empty image
-6. Unwarp this image using `inverse_matrix`
-7. Combine with original image using `cv2.addWeighted()`
+   
+   ![fit_lines](detected_lane/fit_lines.jpg)
+   ![middle_fited](detected_lane/middle_fited.jpg)
+6. Unwarp this image using `inverse_matrix` and combine with original image using `cv2.addWeighted()`
+    
+   ![detected_lines](detected_lane/detected_lines.jpg)
+   ![middle_detected_line](detected_lane/middle_detected_line.jpg)   
