@@ -51,13 +51,17 @@ def drawMiddleLineWarp(cv_image, transformMatrix, inverseMatrix):
             np.array(x,y): a couple of points of the middle line
     """    
     warp_img = warp(cv_image, transformMatrix, inverseMatrix)
+    # return warp_img, []
     binary = yellow_treshold_binary(warp_img)
-    pixels_line_img, nonzeropoints = find_line_pixels(binary,True)
+    # return np.dstack((binary, binary, binary)) *255, []
+    pixels_line_img, nonzeropoints = find_line_pixels(binary,True, True)
+    # return pixels_line_img, []
     line_img = np.zeros_like(cv_image)
     if (len(nonzeropoints)>0):
         for (x,y) in nonzeropoints:
             fit = get_polynomial(y, x)
             line_img, lane_points = draw_polyline(line_img, fit)
+        # return line_img, []
         unwarp_img = warp(line_img, transformMatrix, inverseMatrix, top_view=False)
         ret_line_img = cv2.addWeighted(cv_image,  0.8, unwarp_img,  0.9, 0)
         return ret_line_img, np.array(lane_points)
