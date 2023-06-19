@@ -24,7 +24,7 @@ def drawLinesWarp(cv_image, transformMatrix, inverseMatrix):
     warp_img = warp(gray, transformMatrix, inverseMatrix)
 
     # return warp_img, []
-    pixels_line_img, nonzeropoints = find_line_pixels(warp_img, True)
+    pixels_line_img, nonzeropoints = find_line_pixels(warp_img, False, True)
     # return pixels_line_img, []
 
     line_img = np.zeros_like(cv_image)
@@ -182,9 +182,15 @@ def find_line_pixels(image, middle=False, draw=False):
     # find 1-3 peaks of the lines
     peaks, properties = find_peaks(histogram, height =4, width=1, distance=100)
     # import matplotlib.pyplot as plt
-    # plt.plot(histogram)
-    # plt.plot(peaks, histogram[peaks], "x")
-    # plt.show()
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111)
+    # ax.plot(histogram)
+    # ax.plot(peaks, histogram[peaks], "x")
+    # # ax.show()
+    # import os
+    # save_path = os.path.dirname(os.path.realpath(__file__)) + '\detected_lane'
+    # fig.savefig(os.path.join(save_path, 'hist1.jpg'))
+    
     # print(peaks, histogram[peaks])
     
     if (len(properties['peak_heights'])):     
