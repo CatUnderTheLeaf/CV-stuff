@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 from scipy.signal import find_peaks
 
-def drawMiddleLineWarp(cv_image, transformMatrix, inverseMatrix):
+def drawLinesWarp(cv_image, transformMatrix, inverseMatrix):
     """Draw line on top of the image
         get several points of it
     
@@ -14,14 +14,50 @@ def drawMiddleLineWarp(cv_image, transformMatrix, inverseMatrix):
         np.array: image with line drawn on it
         np.array(x,y): a couple of points of the middle line
     """    
+    gray = cv2.cvtColor(cv_image, cv2.COLOR_RGB2GRAY)
+    # return gray, []
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    # return blur, []
+    gray = cv2.Canny(blur, 30, 80, True)
+    # return gray, []
+    
+    warp_img = warp(gray, transformMatrix, inverseMatrix)
+
+    # return warp_img, []
+    pixels_line_img, nonzeropoints = find_line_pixels(warp_img, True)
+    # return pixels_line_img, []
+
+    line_img = np.zeros_like(cv_image)
+    if (len(nonzeropoints)>0):
+        for (x,y) in nonzeropoints:
+            fit = get_polynomial(y, x)
+            line_img, lane_points = draw_polyline(line_img, fit)
+        # return line_img, []
+        unwarp_img = warp(line_img, transformMatrix, inverseMatrix, top_view=False)
+        ret_line_img = cv2.addWeighted(cv_image,  0.6, unwarp_img,  1, 0)
+        return ret_line_img, np.array(lane_points)
+    else:
+        return cv_image, []
+
+def drawMiddleLineWarp(cv_image, transformMatrix, inverseMatrix):
+    """Draw line on top of the image
+            get several points of it
+        
+        Args:
+            cv_image (OpenCV image): image to be drawn on
+        
+        Returns:
+            np.array: image with line drawn on it
+            np.array(x,y): a couple of points of the middle line
+    """    
     warp_img = warp(cv_image, transformMatrix, inverseMatrix)
     binary = yellow_treshold_binary(warp_img)
-    pixels_line_img, nonzerox, nonzeroy = find_middle_line_pixels(binary)
-    
-    # return pixels_line_img, np.array(cv_image)
-    if (nonzerox.size and nonzeroy.size):
-        middle_fit = get_polynomial(nonzeroy, nonzerox)
-        line_img, lane_points = draw_polyline(np.zeros_like(cv_image), middle_fit)
+    pixels_line_img, nonzeropoints = find_line_pixels(binary,True)
+    line_img = np.zeros_like(cv_image)
+    if (len(nonzeropoints)>0):
+        for (x,y) in nonzeropoints:
+            fit = get_polynomial(y, x)
+            line_img, lane_points = draw_polyline(line_img, fit)
         unwarp_img = warp(line_img, transformMatrix, inverseMatrix, top_view=False)
         ret_line_img = cv2.addWeighted(cv_image,  0.8, unwarp_img,  0.9, 0)
         return ret_line_img, np.array(lane_points)
@@ -94,7 +130,6 @@ def yellow_treshold_binary(image):
     # this outlines 3 lines
     yellow_output[(sxbinary == 1) & (lab_binary == 1) & (s_binary != 1)] = 1
     
-    yellow_output[:yellow_output.shape[0]//2-15, :yellow_output.shape[1]] = 0
     return yellow_output
 
 def get_polynomial(y, x, ym_per_pix=1, xm_per_pix=1):
@@ -111,7 +146,7 @@ def get_polynomial(y, x, ym_per_pix=1, xm_per_pix=1):
     """  
     return np.polyfit(y*ym_per_pix, x*xm_per_pix, 2)
 
-def find_middle_line_pixels(image, draw=False):
+def find_line_pixels(image, middle=False, draw=False):
     """find middle line pixels in image with sliding windows
 
     Args:
@@ -119,8 +154,11 @@ def find_middle_line_pixels(image, draw=False):
         draw (bool, optional): draw rectangles on the image or not. Defaults to False.
 
     Returns:
-        tuple: line nonzero pixels
+        points: lines nonzero pixels
     """    
+    
+    points = []
+    
     # HYPERPARAMETERS
     # Choose the number of sliding windows
     nwindows = 30
@@ -128,69 +166,84 @@ def find_middle_line_pixels(image, draw=False):
     margin = 35
     # Set minimum number of pixels found to recenter window
     minpix = 2
+    line_treshold = 100
+
+    blur = cv2.GaussianBlur(image, (21, 21), 0)
 
     # Take a histogram of the bottom half of the image
-    histogram = np.sum(image[image.shape[0]//6*5:,:], axis=0)
+    # histogram = np.sum(image[image.shape[0]//6*5:,:], axis=0)
+    histogram = np.sum(blur[image.shape[0]//3*2:,:], axis=0)
     # Create an output image to draw on and visualize the result
     out_img = np.dstack((image, image, image)) *255
-    peaks, properties = find_peaks(histogram, height =4, width=1)
-    # if the image is empty
-    if (not len(properties['peak_heights'])):
-        leftx = lefty = np.array([])
-    else:        
-        # Find the peak of the left and right halves of the histogram
-        # These will be the starting point for the left and right lines
+    # find 1-3 peaks of the lines
+    peaks, properties = find_peaks(histogram, height =4, width=1, distance=100)
+    # import matplotlib.pyplot as plt
+    # plt.plot(histogram)
+    # plt.plot(peaks, histogram[peaks], "x")
+    # plt.show()
+    # print(peaks, histogram[peaks])
+    if middle:
         point = np.argmax(properties['peak_heights'])
-        leftx_base = peaks[point]
-        
-        # Set height of windows - based on nwindows above and image shape
-        window_height = np.int64((image.shape[0]//2+35)//nwindows)
-        # Identify the x and y positions of all nonzero pixels in the image
-        nonzero = image.nonzero()
-        nonzeroy = np.array(nonzero[0])
-        nonzerox = np.array(nonzero[1])
-        # Current positions to be updated later for each window in nwindows
-        leftx_current = leftx_base
-        
-        # Create empty lists to receive left and right lane pixel indices
-        left_lane_inds = []
-        
-        # Step through the windows one by one
-        for window in range(nwindows):
-            # Identify window boundaries in x and y (and right and left)
-            win_y_low = image.shape[0] - (window+1)*window_height
-            win_y_high = image.shape[0]- window*window_height
+        peaks = [peaks[point]]
+    if (len(properties['peak_heights'])):       
+        # Peaks are the starting points for the lines
+        for peak in peaks:
+            x_base = peak
             
-            # Find the four below boundaries of the window 
-            win_xleft_low = leftx_current - margin 
-            win_xleft_high = leftx_current + margin                     
-            # draw window rectangles
-            if draw:
-                cv2.rectangle(out_img,(win_xleft_low,win_y_low),
-                (win_xleft_high,win_y_high),(0,255,0), 2) 
-            # Identify the nonzero pixels in x and y within the window 
-            good_left_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
-            (nonzerox >= win_xleft_low) &  (nonzerox < win_xleft_high)).nonzero()[0]
-            # Append these indices to the lists
-            left_lane_inds.append(good_left_inds)
-            # If you found > minpix pixels, recenter next window on their mean position 
-            # or stop windows
-            if len(good_left_inds) > minpix:
-                leftx_current=np.int64(np.mean(nonzerox[good_left_inds]))
+            # Set height of windows - based on nwindows above and image shape
+            # window_height = np.int64((image.shape[0]//2+35)//nwindows)
+            window_height = np.int64(image.shape[0]//nwindows)
+            # Identify the x and y positions of all nonzero pixels in the image
+            nonzero = image.nonzero()
+            nonzeroy = np.array(nonzero[0])
+            nonzerox = np.array(nonzero[1])
+            # Current positions to be updated later for each window in nwindows
+            x_current = x_base
             
-        # Concatenate the arrays of indices (previously was a list of lists of pixels)
-        try:
-            left_lane_inds = np.concatenate(left_lane_inds)
-        except ValueError:
-            # Avoids an error if the above is not implemented fully
-            pass
+            # Create empty lists to receive left and right lane pixel indices
+            lane_inds = []
+            lane_found = False
+            
+            # Step through the windows one by one
+            for window in range(nwindows):
+                # Identify window boundaries in x and y (and right and left)
+                win_y_low = image.shape[0] - (window+1)*window_height
+                win_y_high = image.shape[0]- window*window_height
+                
+                # Find the four below boundaries of the window 
+                win_xleft_low = x_current - margin 
+                win_xleft_high = x_current + margin                     
+                # draw window rectangles
+                if draw:
+                    cv2.rectangle(out_img,(win_xleft_low,win_y_low),
+                    (win_xleft_high,win_y_high),(0,255,0), 2) 
+                # Identify the nonzero pixels in x and y within the window 
+                good_left_inds = ((nonzeroy >= win_y_low) & (nonzeroy < win_y_high) & 
+                (nonzerox >= win_xleft_low) &  (nonzerox < win_xleft_high)).nonzero()[0]
+                # Append these indices to the lists
+                lane_inds.append(good_left_inds)
+                # If you found > minpix pixels, recenter next window on their mean position 
+                # or stop windows
+                if len(good_left_inds) > minpix:
+                    x_current=np.int64(np.mean(nonzerox[good_left_inds]))
+                    lane_found = True
+                elif (len(good_left_inds) < minpix and lane_found):
+                    break
+                
+            # Concatenate the arrays of indices (previously was a list of lists of pixels)
+            try:
+                lane_inds = np.concatenate(lane_inds)
+            except ValueError:
+                # Avoids an error if the above is not implemented fully
+                pass
 
-        # Extract left and right line pixel positions
-        leftx = nonzerox[left_lane_inds]
-        lefty = nonzeroy[left_lane_inds] 
-
-        out_img[lefty, leftx] = [0, 0, 255]
-    return  out_img, leftx, lefty
+            # Extract left and right line pixel positions
+            x = nonzerox[lane_inds]
+            y = nonzeroy[lane_inds] 
+            out_img[y, x] = [0, 0, 255]
+            if len(x)>line_treshold:
+                points.append((x,y))
+    return  out_img, points
 
 def draw_polyline(img, fit):
     """draw polyline on the image
@@ -202,7 +255,8 @@ def draw_polyline(img, fit):
         CVimage: image with a polyline
     """        
     draw_img = np.copy(img)
-    ploty = np.linspace(draw_img.shape[0]//2, draw_img.shape[0]-1, 10)
+    ploty = np.linspace(0, draw_img.shape[0]-1, 10)
+    
     fitx = get_xy(ploty, fit)
         
     all_points = [(np.asarray([fitx, ploty]).T).astype(np.int32)]

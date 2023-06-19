@@ -22,8 +22,14 @@ images = glob.glob('lane_detection/images/*.jpg')
 
 for fname in images:
     camera_img = cv2.imread(fname)
-    line_img, img_waypoints = laneFinder.drawMiddleLineWarp(camera_img, transform_matrix, inverse_matrix)
+    line_img, img_waypoints = laneFinder.drawLinesWarp(camera_img, transform_matrix, inverse_matrix)
+    # line_img, img_waypoints = laneFinder.drawMiddleLineWarp(camera_img, transform_matrix, inverse_matrix)
     cv2.imwrite(os.path.join(save_path, 'middle_line_'+ os.path.basename(fname)), line_img)
+
+# camera_img = cv2.imread(images[230])
+# # line_img, img_waypoints = laneFinder.drawLinesWarp(camera_img, transform_matrix, inverse_matrix)
+# line_img, img_waypoints = laneFinder.drawMiddleLineWarp(camera_img, transform_matrix, inverse_matrix)
+# cv2.imwrite(os.path.join(save_path, 'test.jpg'), line_img)
 
 #### uncomment to make a gif from images
 
