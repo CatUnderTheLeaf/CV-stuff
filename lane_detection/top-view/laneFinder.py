@@ -186,10 +186,11 @@ def find_line_pixels(image, middle=False, draw=False):
     # plt.plot(peaks, histogram[peaks], "x")
     # plt.show()
     # print(peaks, histogram[peaks])
-    if middle:
-        point = np.argmax(properties['peak_heights'])
-        peaks = [peaks[point]]
-    if (len(properties['peak_heights'])):       
+    
+    if (len(properties['peak_heights'])):     
+        if middle:
+            point = np.argmax(properties['peak_heights'])
+            peaks = [peaks[point]]  
         # Peaks are the starting points for the lines
         for peak in peaks:
             x_base = peak
