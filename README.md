@@ -17,8 +17,13 @@ Calibration is an important step in computer vision because it helps to correct 
 
 ### Find middle lane line with perspective transformations
 
-Very popular method to obtain lane lines, but it may not work under different lighting conditions or sharply curved lanes. It requires a lot of tweaking of the threshold borders to remove white lines and light spots.
+Very popular method to obtain lane lines, but it may not work under different lighting conditions or sharply curved lanes. It requires a lot of tweaking of the threshold borders to remove white lines and light spots. 
+
+To detect all lane lines I have used Canny Edge Detector, for the middle line I have used a combination of color and gradient tresholds.
+
+On the gifs one can definitely see, that due to changes in light, sharp curves, (dis)apperaing border lane lines, lane lines are correctly detected in 90% cases.
 
 [Read more](../master/lane_detection/top-view)
 
-![middle_line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video.gif)
+![line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video.gif)
+![middle_line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video2.gif)
