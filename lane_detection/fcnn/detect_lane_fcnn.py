@@ -27,16 +27,21 @@ for fname in images:
     line_img, img_waypoints = laneFinderFCNN.drawMiddleLine(camera_img)
     cv2.imwrite(os.path.join(save_path, 'line_'+ os.path.basename(fname)), line_img)
 
+######################################
+# For testing purposes
+
 # camera_img = cv2.imread(images[230])
 # line_img, img_waypoints = laneFinderFCNN.drawMiddleLine(camera_img)
 # cv2.imwrite(os.path.join(save_path, 'hist.jpg'), line_img)
+
+#######################################
 
 #### uncomment to make a gif from images
 
 # import imageio
 # images = []
-# detimages = glob.glob('**/top-view/detected_lane/line_*.jpg')
-# gif_name = os.path.join(save_path, 'video.gif')
+# detimages = glob.glob('**/fcnn/detected_lane/line_*.jpg')
+# gif_name = os.path.join(save_path, 'video2.gif')
 # for filename in detimages:
 #     images.append(imageio.imread(filename))
 # imageio.mimsave(gif_name, images)
