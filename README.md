@@ -34,4 +34,4 @@ My model has a very simple architecture:
 
 And here it is seen that FCNN is capable of detecting sharp curves in changing lighting:
 
-![fcnn_video](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/fcnn/detected_lane/video.gif)
+![fcnn_video](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/fcnn/detected_lane/video2.gif)
