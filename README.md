@@ -25,5 +25,6 @@ On the gifs one can definitely see, that due to changes in light, sharp curves, 
 
 [Read more](../master/lane_detection/top-view)
 
-![line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video.gif)
-![middle_line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video2.gif)
+|![line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video.gif)|![middle_line_perspective](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/top-view/detected_lane/video2.gif)|
+| :---:     | :---:   |
+|Detecting all lane lines         |      Detecting only yellow middle line|
