@@ -1,1 +1,6 @@
 .vscode/settings.json
+lane_detection/images/*
+*.zip
+*.7z
+*.p
+__pycache__
