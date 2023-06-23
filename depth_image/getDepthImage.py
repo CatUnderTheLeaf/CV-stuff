@@ -13,6 +13,8 @@ left_img = cv2.cvtColor(img_left_color, cv2.COLOR_BGR2GRAY)
 # Blur images to smooth the noise
 left_img = cv2.blur(left_img,(5,5))
 right_img = cv2.blur(right_img,(5,5))
+cv2.imwrite(os.path.dirname(full_path)+'/images/left_blur.png',left_img)
+cv2.imwrite(os.path.dirname(full_path)+'/images/right_blur.png',right_img)
 disparity_map = np.empty_like(left_img)
 
 # camera matrices and other parameters
