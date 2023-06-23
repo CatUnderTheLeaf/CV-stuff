@@ -2,7 +2,8 @@
 
 ## Contents
 1. [Calibration](#calibration)
-2. Lane detection:
+2. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
+3. Lane detection:
    - [Lane Detection with perspective transformations](#lane-detection-with-perspective-transformations)
    - [Lane Detection with Deep Learning](#lane-detection-with-deep-learning)
 
@@ -11,6 +12,17 @@
 Calibration is an important step in computer vision because it helps to correct for any distortions or irregularities in the camera or imaging system being used. This is important because these distortions can affect the accuracy of any measurements or calculations made from the images captured by the camera. Calibration helps to ensure that the images captured are accurate and can be used for tasks such as object recognition, tracking, and measurement. [Read more](../master/calibration)
 
 ![Undistorted_image](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/calibration/Undistorted_image.png)
+
+### Generate a PointCloud from stereo-pair image
+
+When we take photos, all depth information is lost due to perspective projection. Capturing a 3D point cloud is critical for self-driving technology because it allows accurate measurement of various objects on the road. It is possible to extract depth information from a stereo image pair. By comparing the left and right images, we can calculate a disparity and then convert it into a depth map. [Read more](../master/depth_image)
+
+<p align="center">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/left.png" width="450" title="left">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/right.png" width="450" title="right">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="450" title="disparity map">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="450" title="pointcloud">
+</p>
 
 ### Lane Detection with perspective transformations
 
