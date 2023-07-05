@@ -9,7 +9,13 @@
 2. Resize image to improve accuracy and time efficiency
 3. Detect pedestrians with `hog.detectMultiScale()`
    - after experiments with different values I chose `winStride=(4, 6), padding=(2, 2), scale=1.19`
+   - Here are examples of bad parameters:
+
+   ![false_boxes](false_boxes.jpg)
+   ![false_boxes2](false_boxes2.jpg)
+     
 4. Reduce the number of detected boxes with non-maximum suppression
+   
    ![mult_boxes](mult_boxes.jpg)
    ![all_to_one](mult_boxes_to_one.jpg)
 
