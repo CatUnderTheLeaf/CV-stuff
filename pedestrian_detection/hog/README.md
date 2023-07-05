@@ -8,7 +8,8 @@
    ```
 2. Resize image to improve accuracy and time efficiency
 3. Detect pedestrians with `hog.detectMultiScale()`
-   - after experiments with different values I chose `winStride=(4, 6), padding=(2, 2), scale=1.19`
+   - the problem was that it should be same parameters for the whole dataset and on some frames it worked good on another frames - there were false-positive or missing detections
+   - smaller `winStride` and `scale` increase detection time and are not useful for real-time applications 
    - Here are examples of bad parameters:
 
    ![false_boxes](false_boxes.jpg)
@@ -19,9 +20,14 @@
    ![mult_boxes](mult_boxes.jpg)
    ![all_to_one](mult_boxes_to_one.jpg)
 
+5. Here are four videos with `winStride=(4, 6), padding=(2, 2), scale=1.19` detect parameters:
+
+   ![one](one.gif)
+   ![cars](cars.gif)
+   ![bus](bus.gif)
+   ![tunnel](tunnel.gif)
 
 
 
 
-
-[^1]: [Daimler Pedestrian Detection Benchmark Dataset](http://www.gavrila.net/Datasets/Daimler_Pedestrian_Benchmark_D/Daimler_Mono_Ped__Detection_Be/daimler_mono_ped__detection_be.html)
+[^1]: M. Enzweiler and D. M. Gavrila. “Monocular Pedestrian Detection: Survey and Experiments”. IEEE Trans. on Pattern Analysis and Machine Intelligence, vol.31, no.12, pp.2179-2195, 2009. [Daimler Pedestrian Detection Benchmark Dataset](http://www.gavrila.net/Datasets/Daimler_Pedestrian_Benchmark_D/Daimler_Mono_Ped__Detection_Be/daimler_mono_ped__detection_be.html)
