@@ -6,6 +6,8 @@
 3. Lane detection:
    - [Lane Detection with perspective transformations](#lane-detection-with-perspective-transformations)
    - [Lane Detection with Deep Learning](#lane-detection-with-deep-learning)
+4. Pedestrian detection:
+   - [Pedestrian detection with HOG and Linear SVM model](#pedestrian-detection-with-hog-and-linear-svm-model)
 
 ### Calibration
 
@@ -18,10 +20,10 @@ Calibration is an important step in computer vision because it helps to correct 
 When we take photos, all depth information is lost due to perspective projection. Capturing a 3D point cloud is critical for self-driving technology because it allows accurate measurement of various objects on the road. It is possible to extract depth information from a stereo image pair. By comparing the left and right images, we can calculate a disparity and then convert it into a depth map. [Read more](../master/depth_image)
 
 <p align="center">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/left.png" width="450" title="left">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/right.png" width="450" title="right">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="450" title="disparity map">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="450" title="pointcloud">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/left.png" width="400" title="left">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/right.png" width="400" title="right">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="400" title="disparity map">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="400" title="pointcloud">
 </p>
 
 ### Lane Detection with perspective transformations
@@ -47,3 +49,10 @@ My model has a very simple architecture (diagram is made with [`visualkeras`](ht
 After 10 Epochs my model finished with MSE for training of 0.0040 and validation of 0.0039, which I think is pretty good. And here it is seen that FCNN is capable of detecting sharp curves in changing lighting and ignoring sidelines:
 
 ![fcnn_video](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/fcnn/detected_lane/video2.gif)
+
+### Pedestrian detection with HOG and Linear SVM model
+
+Very easy method to detect pedestrians is to use pre-trained HOG and linear SWM model in OpenCV. Also I used non-maximum suppression to the bounding boxes to reduce number of overlaping boxes. After experiments with detecting parameters I can say that different images and cameras may require different parameter values to achieve the best results. And even when camera is the same lighting conditions, object size/scale/orientation and background clutter can tremendously effect the quality of detection. [Read more](../master/pedestrian_detection/hog)
+
+![one_pedestrian](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/hog/one.gif)
+![tunnel_pedestrian](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/hog/tunnel.gif)
