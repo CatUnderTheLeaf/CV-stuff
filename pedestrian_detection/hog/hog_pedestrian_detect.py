@@ -44,8 +44,8 @@ def main():
         width=min(400, image.shape[1])
         height = int(image.shape[0] * width / image.shape[1])
         image = cv2.resize(image, (width, height))
-        (rects, weights) = hog.detectMultiScale(image, winStride=(4, 4),
-            padding=(8, 8), scale=1.19)
+        (rects, weights) = hog.detectMultiScale(image, winStride=(4, 6),
+            padding=(2, 2), scale=1.19)
         # apply non-maxima suppression to the bounding boxes using a
         # fairly large overlap threshold to try to maintain overlapping
         # boxes that are still people
