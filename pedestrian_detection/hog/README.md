@@ -12,20 +12,20 @@
    - smaller `winStride` and `scale` increase detection time and are not useful for real-time applications 
    - Here are examples of bad parameters:
 
-   ![false_boxes](false_boxes.jpg)
-   ![false_boxes2](false_boxes2.jpg)
+   ![false_boxes](detected/false_boxes.jpg)
+   ![false_boxes2](detected/false_boxes2.jpg)
      
 4. Reduce the number of detected boxes with non-maximum suppression
    
-   ![mult_boxes](mult_boxes.jpg)
-   ![all_to_one](mult_boxes_to_one.jpg)
+   ![mult_boxes](detected/mult_boxes.jpg)
+   ![all_to_one](detected/mult_boxes_to_one.jpg)
 
 5. Here are four videos with `winStride=(4, 6), padding=(2, 2), scale=1.19` detect parameters:
 
-   ![one](one.gif)
-   ![cars](cars.gif)
-   ![bus](bus.gif)
-   ![tunnel](tunnel.gif)
+   ![one](detected/one.gif)
+   ![cars](detected/cars.gif)
+   ![bus](detected/bus.gif)
+   ![tunnel](detected/tunnel.gif)
 
 
 
