@@ -7,6 +7,7 @@
    - [Lane Detection with perspective transformations](#lane-detection-with-perspective-transformations)
    - [Lane Detection with Deep Learning](#lane-detection-with-deep-learning)
 4. Pedestrian detection:
+   - [Pedestrian detection with "Haar"-based Detectors](#pedestrian-detection-with-haar-based-detectors)
    - [Pedestrian detection with HOG and Linear SVM model](#pedestrian-detection-with-hog-and-linear-svm-model)
 5. Object Classification
 6. Object Tracking
@@ -52,6 +53,14 @@ My model has a very simple architecture (diagram is made with [`visualkeras`](ht
 After 10 Epochs my model finished with MSE for training of 0.0040 and validation of 0.0039, which I think is pretty good. And here it is seen that FCNN is capable of detecting sharp curves in changing lighting and ignoring sidelines:
 
 ![fcnn_video](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/lane_detection/fcnn/detected_lane/video2.gif)
+
+### Pedestrian detection with "Haar"-based Detectors
+
+These detectors have been successfully applied to pedestrian detection in still images. The detectors only support frontal and back views but not sideviews. So there is a number of false alarms. I tried all three detectors: upper body detector, lower body detector and full body detector. [Read more](../master/pedestrian_detection/cascades)
+
+![one_upper](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/cascades/detected/one_upper.gif)
+![one_lower](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/cascades/detected/one_lower.gif)
+![one_full](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/cascades/detected/one_full.gif)
 
 ### Pedestrian detection with HOG and Linear SVM model
 
