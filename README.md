@@ -8,6 +8,9 @@
    - [Lane Detection with Deep Learning](#lane-detection-with-deep-learning)
 4. Pedestrian detection:
    - [Pedestrian detection with HOG and Linear SVM model](#pedestrian-detection-with-hog-and-linear-svm-model)
+5. Object Classification
+6. Object Tracking
+7. Semantic and Instance Segmentation
 
 ### Calibration
 
