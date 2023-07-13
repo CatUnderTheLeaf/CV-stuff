@@ -1,16 +1,5 @@
 #!/usr/bin/env python
 
-# We have object detection using keypoints, 
-# local invariant descriptors, 
-# and bag-of-visual-words models. 
-# We have Histogram of Oriented Gradients. 
-# We have deformable parts models. 
-# Exemplar models. 
-# And we are now utilizing Deep Learning with pyramids to recognize objects at different scales!
-
-
-
-
 # Python 2/3 compatibility
 from __future__ import print_function
 

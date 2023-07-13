@@ -4,3 +4,4 @@ lane_detection/images/*
 *.7z
 *.p
 __pycache__
+DaimlerBenchmark/*
