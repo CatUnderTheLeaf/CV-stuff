@@ -24,8 +24,6 @@ def main():
     images = []
     gif_name = os.path.join(full_path, 'detected', 'one_upper.gif')
     
-    hog = cv2.HOGDescriptor()
-    hog.setSVMDetector( cv2.HOGDescriptor_getDefaultPeopleDetector() )
     
     img_path = os.path.join(os.path.dirname(full_path),'images','one')
     # img_path = os.path.join(os.path.dirname(full_path),'images','cars')

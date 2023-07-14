@@ -5,3 +5,8 @@ lane_detection/images/*
 *.p
 __pycache__
 DaimlerBenchmark/*
+pedestrian_detection/images/bus/*
+pedestrian_detection/images/cars/*
+pedestrian_detection/images/one/*
+pedestrian_detection/images/test/*
+pedestrian_detection/images/tunnel/*
