@@ -9,7 +9,7 @@ import os
 from imutils.object_detection import non_max_suppression
 
 tracker_types = ['MIL','KCF','CSRT']
-tracker_type = tracker_types[1]
+tracker_type = tracker_types[2]
 
 
 class Tracker:
@@ -101,8 +101,8 @@ def main():
     gif_name = os.path.join(os.path.dirname(full_path), 'one.gif')
     
     img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','one')
-    img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','cars')
-    img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','bus')
+    # img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','cars')
+    # img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','bus')
     img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','tunnel')
     # img_path = os.path.join(os.path.dirname(full_path),'pedestrian_detection','images','test')
     
