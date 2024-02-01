@@ -1,34 +1,27 @@
 # Perception of a traffic scene
 
 ## Contents
-1. [Calibration](#calibration)
-2. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
-3. Lane detection:
-   - [Lane Detection with perspective transformations](#lane-detection-with-perspective-transformations)
+
+1. Object Classification
+2. Object Detection
+   - [Run inference with pretrained object-detection models](#running-object-detector-inference)
+3. Lane Detection:
+   - [Lane Detection with OpenCV using perspective transformations](#lane-detection-with-perspective-transformations)
    - [Lane Detection with Deep Learning](#lane-detection-with-deep-learning)
-4. Pedestrian detection:
+4. Pedestrian Detection:
    - [Pedestrian detection with "Haar"-based Detectors](#pedestrian-detection-with-haar-based-detectors)
    - [Pedestrian detection with HOG and Linear SVM model](#pedestrian-detection-with-hog-and-linear-svm-model)
-5. Object Classification
-6. Object Tracking
-7. Semantic and Instance Segmentation
+5. Object Tracking
+6. Semantic and Instance Segmentation
+7. [Calibration](#calibration)
+8. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
 
-### Calibration
+### Running object detector inference
 
-Calibration is an important step in computer vision because it helps to correct for any distortions or irregularities in the camera or imaging system being used. This is important because these distortions can affect the accuracy of any measurements or calculations made from the images captured by the camera. Calibration helps to ensure that the images captured are accurate and can be used for tasks such as object recognition, tracking, and measurement. [Read more](../master/calibration)
+Here I just wanted to see how good are existing pretrained models on my custom data. I used `ssd-mobilenet-v2` and `efficientdet-D0` pretrained on COCO 2017 dataset. I can say, that `efficientdet` is much slower than `ssd-mobilenet-v2` but detects more objects. [Read more](../master/object_detection/object_detection_inference.ipynb)
 
-![Undistorted_image](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/calibration/Undistorted_image.png)
-
-### Generate a PointCloud from stereo-pair image
-
-When we take photos, all depth information is lost due to perspective projection. Capturing a 3D point cloud is critical for self-driving technology because it allows accurate measurement of various objects on the road. It is possible to extract depth information from a stereo image pair. By comparing the left and right images, we can calculate a disparity and then convert it into a depth map. [Read more](../master/depth_image)
-
-<p align="center">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/left.png" width="400" title="left">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/right.png" width="400" title="right">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="400" title="disparity map">
-  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="400" title="pointcloud">
-</p>
+![ssd-mobilenet-v2](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/object_detection/detected/output.png)
+![efficientdet-D0](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/object_detection/detected/output2.png)
 
 ### Lane Detection with perspective transformations
 
@@ -68,3 +61,20 @@ Very easy method to detect pedestrians is to use pre-trained HOG and linear SWM 
 
 ![one_pedestrian](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/hog/detected/one.gif)
 ![tunnel_pedestrian](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/pedestrian_detection/hog/detected/tunnel.gif)
+
+### Calibration
+
+Calibration is an important step in computer vision because it helps to correct for any distortions or irregularities in the camera or imaging system being used. This is important because these distortions can affect the accuracy of any measurements or calculations made from the images captured by the camera. Calibration helps to ensure that the images captured are accurate and can be used for tasks such as object recognition, tracking, and measurement. [Read more](../master/calibration)
+
+![Undistorted_image](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/calibration/Undistorted_image.png)
+
+### Generate a PointCloud from stereo-pair image
+
+When we take photos, all depth information is lost due to perspective projection. Capturing a 3D point cloud is critical for self-driving technology because it allows accurate measurement of various objects on the road. It is possible to extract depth information from a stereo image pair. By comparing the left and right images, we can calculate a disparity and then convert it into a depth map. [Read more](../master/depth_image)
+
+<p align="center">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/left.png" width="400" title="left">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/right.png" width="400" title="right">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="400" title="disparity map">
+  <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="400" title="pointcloud">
+</p>
