@@ -1,5 +1,14 @@
 ## Activation functions
 
+- [Hyperbolic Tangent, tanh(x)](#hyperbolic-tangent-tanhx)
+- [ReLU](#relu)
+- [Leaky ReLU](#leaky-rectified-linear-units-leaky-relu)
+- [ELU](#exponential-linear-units-elu)
+- [Binary Step](#binary-step)
+- [Sigmoid](#sigmoid)
+- [ArcTan](#arctangent-arctan)
+- [SoftPlus](#softplus)
+
 Activation functions serve two primary purposes:
 
 1) __Help a model account for interaction effects.__
