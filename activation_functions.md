@@ -11,7 +11,12 @@ So, the effect of body weight on diabetes risk depends on height, and we would s
 3) __Help a model account for non-linear effects.__ This just means that if I graph a variable on the horizontal axis, and my predictions on the vertical axis, it isn't a straight line.
 4) Or said another way, the effect of increasing the predictor by one is different at different values of that predictor.
 
-### tanh(x)
+### Hyperbolic Tangent, tanh(x)
+
+```math
+
+f(x) = \frac{2}{1+e^{-2x}}-1
+```
 
 ![tanh function](images/Q1jQejl.png)
 
@@ -29,6 +34,13 @@ This problem gets worse as the model has more layers. This was called the vanish
 
 The Rectified Linear Unit is the most commonly used activation function in deep learning models. The function returns 0 if it receives any negative input, but for any positive value  x
   it returns that value back. So it can be written as  _f(x)=max(0,x)_.
+```math
+f(x) =
+  \begin{cases}
+    0       & \quad \text{for } x \leq 0\
+    x  & \quad \text{for } x >0
+  \end{cases}
+```
 
 ![ReLU function](images/gKA4kA9.jpg)
   
@@ -67,3 +79,64 @@ The ReLU function has a derivative of 0 over half it's range (the negative numbe
 
 When training on a reasonable sized batch, there will usually be some data points giving positive values to any given node. 
 So the average derivative is rarely close to 0, which allows gradient descent to keep progressing.
+
+### Leaky Rectified Linear Units, Leaky ReLU
+
+```math
+f(x) =
+  \begin{cases}
+    ax       & \quad \text{for } x \leq 0\
+    x  & \quad \text{for } x >0
+  \end{cases}
+```
+![Leaky ReLU](images/leaky.png)
+
+### Exponential Linear Units, ELU
+
+```math
+f(x) =
+  \begin{cases}
+    a(e^x - 1)       & \quad \text{for } x \leq 0\
+    x  & \quad \text{for } x >0
+  \end{cases}
+```
+![ELU](images/elu.png)
+
+### Binary Step
+
+```math
+
+f(x) =
+  \begin{cases}
+    0       & \quad \text{for } x \leq 0\
+    1  & \quad \text{for } x >0
+  \end{cases}
+```
+![Binary Step](images/binary_step.png)
+
+### Sigmoid
+
+```math
+
+f(x) = \frac{1}{1+e^{-x}}
+```
+
+![Sigmoid](images/sigmoid.png)
+
+### Arctangent, ArcTan
+
+```math
+
+f(x) = \tan^{-1}(x)
+```
+
+![ArcTan](images/arctan.png)
+
+### SoftPlus
+
+```math
+
+f(x) = \ln(1+e^x)
+```
+
+![ArcTan](images/softplus.png)
