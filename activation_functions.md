@@ -217,6 +217,8 @@ f(x) = \ln(1+e^x)
 
 ![softplus](images/softplus.png)
 
+Softplus is a smooth function that looks much like ReLU, but which has the advantage of full differenciability. ReLU, invented later, has displaced softplus in deep networks however, as emperical evidence however has shown that having a differenciable surface doesn't win you anything in practice. Thus softplus has fallen out of use in favor of ReLU and Leaky ReLU, which also happen to be faster to train (because their gradient is so easy to compute).
+
 ### Softmax
 ```math
 f (x_i) = \frac{x_i}{\sum_{j} x_j}
