@@ -222,6 +222,7 @@ f(x) = \ln(1+e^x)
 f (x_i) = \frac{x_i}{\sum_{j} x_j}
 ```
 ![softmax](images/softmax.png)
+
 The softmax function is also a type of sigmoid non-linear function but is handy when we are trying to handle classification problems.
 
 Usually used when trying to handle multiple classes. It is a form of logistic regression that normalizes an input value into a vector of values that follows a probability distribution whose total sums up to 1. Neural networks model classifies the instance as a class that have an index of the maximum output.
