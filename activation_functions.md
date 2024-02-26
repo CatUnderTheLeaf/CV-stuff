@@ -19,8 +19,13 @@ For example, if my model wanted to know whether a certain body weight indicated 
 Some bodyweights indicate elevated risks for short people, while indicating good health for tall people.
 So, the effect of body weight on diabetes risk depends on height, and we would say that weight and height have an interaction effect.
 
-3) __Help a model account for non-linear effects.__ This just means that if I graph a variable on the horizontal axis, and my predictions on the vertical axis, it isn't a straight line.
-4) Or said another way, the effect of increasing the predictor by one is different at different values of that predictor.
+2) __Help a model account for non-linear effects.__ This just means that if I graph a variable on the horizontal axis, and my predictions on the vertical axis, it isn't a straight line. Or said another way, the effect of increasing the predictor by one is different at different values of that predictor.
+
+| Activation function | Layer | Advantages | Disadvantages |
+| --- | --- | --- | --- |
+| tanh(x) | ? | + Zero-centric | - Vanishing gradient problem |
+| ReLU | hidden | + Simple and computationally efficent <br> + No vanishing gradient problem<br> + Non-linear <br> + Sparsity | - Dead Neurons <br> - Cannot be used as the activation function for final layer
+
 
 ### Hyperbolic Tangent, tanh(x)
 
@@ -44,7 +49,7 @@ This problem gets worse as the model has more layers. This was called the vanish
 __Advantages__:
 
 + Zero-centric- it accommodates large positive and negative values because if calculates local (or global) minimum 
-quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function           faster.
+quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function faster.
 
 __Disadvantages__:
 
@@ -105,11 +110,11 @@ __Advantages__:
 + Simple and computationally efficent 
 + No vanishing gradient problem- as the input remains the same
 + Non-linear 
-+ Sparsity- increases speed of the model by removing unwanted features(Most of the times)
++ Sparsity - increases speed of the model by removing unwanted features (Most of the times)
 
 __Disadvantages__:
 
-- Dead Neurons- the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during            backpropagation and optimization.
+- Dead Neurons- the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during backpropagation and optimization.
 - Cannot be used as the activation function for final layer.
 
 ### Leaky Rectified Linear Units, Leaky ReLU
