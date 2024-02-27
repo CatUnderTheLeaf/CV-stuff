@@ -9,15 +9,25 @@ __An Activation Function__ decides whether a neuron should be activated or not. 
 | --- | --- | --- | --- |
 | [Binary Step](#binary-step) | output | + useful for binary classification studies | - useless in backpropagation because it cannot be backpropageted - The gradient of the step function is zero, which causes a hindrance in the backpropagation process. <br> - It cannot provide multi-value outputs—for example, it cannot be used for multi-class classification problems. |
 | [Linear Function](#linear-function) | --- | --- | - It’s not possible to use backpropagation as the derivative of the function is a constant and has no relation to the input x.  <br> - All layers of the neural network will collapse into one if a linear activation function is used. No matter the number of layers in the neural network, the last layer will still be a linear function of the first layer. So, essentially, a linear activation function turns the neural network into just one layer. |
-| [Sigmoid / Logistic](#sigmoid) | (usually) output | + Simple and smooth curve <br> + Clear predictions, since probability of anything exists only between the range of 0 and 1 <br> + Can be used in any layer including the output layer | - Non-Zero centric - for large negative and positive values the output is positive and in opposite directions but between [0,1] which makes it difficult to calculate gradient for such small values. <br> - Vanishing Gradient - the change in predicted values for large positive numbers is infinitesimal. <br> - The calculation is computationally complex for large networks. |
-| [tanh(x)](#hyperbolic-tangent-tanhx) | hidden | + Zero-centric - its mean is 0 or near to it which helps in centering the data. It accommodates large positive and negative values because if calculates local (or global) minimum quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function faster. | - Vanishing gradient problem <br> - Plus the gradient of the tanh function is much steeper as compared to the sigmoid function.|
-| [ReLU](#relu) | hidden | + Simple and computationally efficent <br> + No vanishing gradient problem - as the input remains the same<br> + Non-linear - effective in converting linear combinations of inputs into non-linear outputs, which can help to capture more complex relationships <br> + Sparsity - increases speed of the model by removing unwanted features (Most of the times) | - Dead Neurons - the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during backpropagation and optimization. <br> - Cannot be used as the activation function for final layer, because we need to ensure that the predicted values are in a specific range |
+| [Sigmoid / Logistic](#sigmoid) | both | + Simple and smooth curve <br> + Clear predictions, since probability of anything exists only between the range of 0 and 1 <br> + Can be used in any layer including the output layer | - Non-Zero centric - for large negative and positive values the output is positive and in opposite directions but between [0,1] which makes it difficult to calculate gradient for such small values. <br> - Vanishing Gradient - the change in predicted values for large positive numbers is infinitesimal. <br> - The calculation is computationally complex for large networks. |
+| [tanh(x)](#hyperbolic-tangent-tanhx) | both | + Zero-centric - its mean is 0 or near to it which helps in centering the data. It accommodates large positive and negative values because if calculates local (or global) minimum quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function faster. | - Vanishing gradient problem <br> - Plus the gradient of the tanh function is much steeper as compared to the sigmoid function. <br> - in hidden layers make the model more susceptible to problems during training (due to vanishing gradients)|
+| [ReLU](#relu) | only hidden | + Simple and computationally efficent <br> + No vanishing gradient problem - as the input remains the same<br> + Non-linear - effective in converting linear combinations of inputs into non-linear outputs, which can help to capture more complex relationships <br> + Sparsity - increases speed of the model by removing unwanted features (Most of the times) | - Dead Neurons - the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during backpropagation and optimization. <br> - Cannot be used as the activation function for final layer, because we need to ensure that the predicted values are in a specific range |
 | [Leaky ReLU](#leaky-rectified-linear-units-leaky-relu) | hidden | + Prevents the dead neurons problem - due to the replacement of negative values the neurons do not deactive and block | - The gradient for negative values is a small value that makes the learning of model parameters time-consuming |
 | [ELU](#exponential-linear-units-elu) | hidden | + Prevents the dead neurons problem <br> + ELU becomes smooth slowly until its output equal to -α whereas RELU sharply smoothes| - more computationally expensive than the ReLU because of the exponential operation included <br> - No learning of the ‘a’ value takes place <br> - Exploding gradient problem |
-| [ArcTan](#arctangent-arctan) | ? | ? | ? |
-| [SoftPlus](#softplus) | ? | + has the advantage of full differenciability | slow to train |
 | [Softmax](#softmax) | output | + Multi-dimensional classification <br> + Generally used as output neuron | ? |
-| [Swish](#swish) | hidden | + Small negative values were zeroed out in ReLU activation function. However, those negative values may still be relevant for capturing patterns underlying the data. Large negative values are zeroed out for reasons of sparsity making it a win-win situation. <br> + The swish function being non-monotonous enhances the expression of input data and weight to be learnt. | ? |
+| [Swish](#swish) | hidden (a depth greater than 40 layers) | + Small negative values were zeroed out in ReLU activation function. However, those negative values may still be relevant for capturing patterns underlying the data. Large negative values are zeroed out for reasons of sparsity making it a win-win situation. <br> + The swish function being non-monotonous enhances the expression of input data and weight to be learnt. | ? |
+
+Finally, a few rules for choosing the activation function for your output layer based on the type of prediction problem that you are solving:
+
+1. __Regression__ - Linear Activation Function
+2. __Binary Classification__ — Sigmoid/Logistic Activation Function
+3. __Multiclass Classification__ — Softmax
+4. __Multilabel Classification__ — Sigmoid
+   
+The activation function used in hidden layers is typically chosen based on the type of neural network architecture.
+
+1. __Convolutional Neural Network (CNN)__: ReLU activation function.
+2. __Recurrent Neural Network (RNN)__: Tanh and/or Sigmoid activation function.
 
 Activation functions serve two primary purposes:
 
@@ -175,26 +185,6 @@ This activation function fixes some of the problems with ReLUs and keeps some of
 The y-value you get depends both on your x-value input, but also on a parameter alpha α , which you can adjust as needed. Furthermore, we introduce an exponential operation e x , which means the ELU is more computationally expensive than the ReLU.
 
 Used in hidden layers
-
-### Arctangent, ArcTan
-
-```math
-
-f(x) = \tan^{-1}(x)
-```
-
-![ArcTan](images/arctan.png)
-
-### SoftPlus
-
-```math
-
-f(x) = \ln(1+e^x)
-```
-
-![softplus](images/softplus.png)
-
-Softplus is a smooth function that looks much like ReLU, but which has the advantage of full differenciability. ReLU, invented later, has displaced softplus in deep networks however, as emperical evidence however has shown that having a differenciable surface doesn't win you anything in practice. Thus softplus has fallen out of use in favor of ReLU and Leaky ReLU, which also happen to be faster to train (because their gradient is so easy to compute).
 
 ### Softmax
 ```math
