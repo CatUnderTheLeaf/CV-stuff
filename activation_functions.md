@@ -1,15 +1,18 @@
 ## Activation functions
 
-- [Hyperbolic Tangent, tanh(x)](#hyperbolic-tangent-tanhx)
-- [ReLU](#relu)
-- [Leaky ReLU](#leaky-rectified-linear-units-leaky-relu)
-- [ELU](#exponential-linear-units-elu)
-- [Binary Step](#binary-step)
-- [Sigmoid](#sigmoid)
-- [ArcTan](#arctangent-arctan)
-- [SoftPlus](#softplus)
-- [Softmax](#softmax)
-- [Swish](#swish)
+| Activation function | Layer | Advantages | Disadvantages |
+| --- | --- | --- | --- |
+| [tanh(x)](#hyperbolic-tangent-tanhx) | ? | + Zero-centric - it accommodates large positive and negative values because if calculates local (or global) minimum quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function faster. | - Vanishing gradient problem |
+| [ReLU](#relu) | hidden (why??) | + Simple and computationally efficent <br> + No vanishing gradient problem - as the input remains the same<br> + Non-linear <br> + Sparsity - increases speed of the model by removing unwanted features (Most of the times) | - Dead Neurons - the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during backpropagation and optimization. <br> - Cannot be used as the activation function for final layer (why???) |
+| [Leaky ReLU](#leaky-rectified-linear-units-leaky-relu) | hidden (why??) | + Prevents the dead neurons problem - due to the replacement of negative values the neurons do not deactive and block | -  Output not constant ## check |
+| [ELU](#exponential-linear-units-elu) | hidden (why??) | + Prevents the dead neurons problem | - more computationally expensive than the ReLU |
+| [Binary Step](#binary-step) | ? | + useful for binary classification studies | - useless in backpropagation because it cannot be backpropageted |
+| [Sigmoid](#sigmoid) | (usually) output | + Simple and smooth curve <br> + Clear predictions <br> + Can be used in any layer including the output layer | - Non-Zero centric - for large negative and positive values the output is positive and in opposite directions but between [0,1] which makes it difficult to calculate gradient for such small values. <br> - Vanishing Gradient - the change in predicted values for large positive numbers is infinitesimal. <br> - The calculation is computationally complex for large networks. |
+| [ArcTan](#arctangent-arctan) | ? | ? | ? |
+| [SoftPlus](#softplus) | ? | + has the advantage of full differenciability | slow to train |
+| [Softmax](#softmax) | output | + Multi-dimensional classification <br> + Generally used as output neuron | ? |
+| [Swish](#swish) | ? | + tends to work better than ReLU on deeper models | ? |
+
 
 Activation functions serve two primary purposes:
 
@@ -18,14 +21,26 @@ What is an interactive effect? It is when one variable A affects a prediction di
 For example, if my model wanted to know whether a certain body weight indicated an increased risk of diabetes, it would have to know an individual's height.
 Some bodyweights indicate elevated risks for short people, while indicating good health for tall people.
 So, the effect of body weight on diabetes risk depends on height, and we would say that weight and height have an interaction effect.
+<br>Imagine a single node in a neural network model. For simplicity, assume it has two inputs, called A and B.
+The weights from A and B into our node are 2 and 3 respectively. So the node output is  _f(2A+3B)_.
+We'll use the ReLU function for our f. So, if  _2A+3B_ is positive, the output value of our node is also  _2A+3B_.
+If  _2A+3B_ is negative, the output value of our node is 0.
+<br>For concreteness, consider a case where A=1 and B=1. The output is _2A+3B_, and if A increases, then the output increases too.
+On the other hand, if B=-100 then the output is 0, and if A increases moderately, the output remains 0.
+So A might increase our output, or it might not. It just depends what the value of B is.
+<br>This is a simple case where the node captured an interaction. As you add more nodes and more layers, the potential complexity of interactions only increases. 
+But you should now see how the activation function helped capture an interaction.
 
 2) __Help a model account for non-linear effects.__ This just means that if I graph a variable on the horizontal axis, and my predictions on the vertical axis, it isn't a straight line. Or said another way, the effect of increasing the predictor by one is different at different values of that predictor.
-
-| Activation function | Layer | Advantages | Disadvantages |
-| --- | --- | --- | --- |
-| tanh(x) | ? | + Zero-centric | - Vanishing gradient problem |
-| ReLU | hidden | + Simple and computationally efficent <br> + No vanishing gradient problem<br> + Non-linear <br> + Sparsity | - Dead Neurons <br> - Cannot be used as the activation function for final layer
-
+<br>A function is non-linear if the slope isn't constant. 
+<br>First, most models include a bias term for each node. The bias term is just a constant number that is determined during model training. 
+For simplicity, consider a node with a single input called A, and a bias. If the bias term takes a value of 7, then the node output is _f(7+A)_. 
+In this case, if A is less than -7, the output is 0 and the slope is 0. If A is greater than -7, then the node's output is _7+A_, and the slope is 1.
+<br>So the bias term allows us to move where the slope changes. So far, it still appears we can have only two different slopes.
+<br>However, real models have many nodes. Each node (even within a single layer) can have a different value for it's bias, so each node can change slope at different values for our input.
+<br>When we add the resulting functions back up, we get a combined function that changes slopes in many places.
+<br>These models have the flexibility to produce non-linear functions and account for interactions well (if that will giv better predictions). 
+As we add more nodes in each layer (or more convolutions if we are using a convolutional model) the model gets even greater ability to represent these interactions and non-linearities.
 
 ### Hyperbolic Tangent, tanh(x)
 
@@ -46,15 +61,6 @@ It is relatively flat except for a very narrow range (that range being about -2 
 The derivative of the function is very small unless the input is in this narrow range, and this flat derivative makes it difficult to improve the weights through gradient descent. 
 This problem gets worse as the model has more layers. This was called the vanishing gradient problem.
 
-__Advantages__:
-
-+ Zero-centric- it accommodates large positive and negative values because if calculates local (or global) minimum 
-quickly as derivatives of the tanh are larger than the derivatives of the sigmoid. It can minimize the cost function faster.
-
-__Disadvantages__:
-
-- Vanishing gradient problem
-
 ### ReLU
 
 The Rectified Linear Unit is the most commonly used activation function in deep learning models. The function returns 0 if it receives any negative input, but for any positive value  x
@@ -69,53 +75,13 @@ f(x) =
 
 ![ReLU function](images/gKA4kA9.jpg)
   
-__Interactions__: Imagine a single node in a neural network model. For simplicity, assume it has two inputs, called A and B.
-The weights from A and B into our node are 2 and 3 respectively. So the node output is  _f(2A+3B)_.
-We'll use the ReLU function for our f. So, if  _2A+3B_ is positive, the output value of our node is also  _2A+3B_.
-If  _2A+3B_ is negative, the output value of our node is 0.
-
-For concreteness, consider a case where A=1 and B=1. The output is _2A+3B_, and if A increases, then the output increases too.
-On the other hand, if B=-100 then the output is 0, and if A increases moderately, the output remains 0.
-So A might increase our output, or it might not. It just depends what the value of B is.
-
-This is a simple case where the node captured an interaction. As you add more nodes and more layers, the potential complexity of interactions only increases. 
-But you should now see how the activation function helped capture an interaction.
-
-__Non-linearities__: A function is non-linear if the slope isn't constant. 
 So, the ReLU function is non-linear around 0, but the slope is always either 0 (for negative values) or 1 (for positive values). 
 That's a very limited type of non-linearity.
-
-But two facts about deep learning models allow us to create many different types of non-linearities from how we combine ReLU nodes.
-
-First, most models include a bias term for each node. The bias term is just a constant number that is determined during model training. 
-For simplicity, consider a node with a single input called A, and a bias. If the bias term takes a value of 7, then the node output is _f(7+A)_. 
-In this case, if A is less than -7, the output is 0 and the slope is 0. If A is greater than -7, then the node's output is _7+A_, and the slope is 1.
-
-So the bias term allows us to move where the slope changes. So far, it still appears we can have only two different slopes.
-
-However, real models have many nodes. Each node (even within a single layer) can have a different value for it's bias, so each node can change slope at different values for our input.
-
-When we add the resulting functions back up, we get a combined function that changes slopes in many places.
-
-These models have the flexibility to produce non-linear functions and account for interactions well (if that will giv better predictions). 
-As we add more nodes in each layer (or more convolutions if we are using a convolutional model) the model gets even greater ability to represent these interactions and non-linearities.
 
 The ReLU function has a derivative of 0 over half it's range (the negative numbers). For positive inputs, the derivative is 1.
 
 When training on a reasonable sized batch, there will usually be some data points giving positive values to any given node. 
 So the average derivative is rarely close to 0, which allows gradient descent to keep progressing.
-
-__Advantages__:
-
-+ Simple and computationally efficent 
-+ No vanishing gradient problem- as the input remains the same
-+ Non-linear 
-+ Sparsity - increases speed of the model by removing unwanted features (Most of the times)
-
-__Disadvantages__:
-
-- Dead Neurons- the gradient(slope) in the negative region is 0 deactivates the neurons which cannot be changed during backpropagation and optimization.
-- Cannot be used as the activation function for final layer.
 
 ### Leaky Rectified Linear Units, Leaky ReLU
 
@@ -131,15 +97,6 @@ f(x) =
 AF that introduce some small negative slope to the ReLU to sustain and keep the weight updates alive during the entire propagation process
 
 The alpha parameter was introduced as a solution to the ReLUs dead neuron problems such that the gradients will not be zero at any time during training
-
-__Advantange__:
-
-+ Prevents the dead neurons problem- due to the replacement of negative values the neurons do not deactive and block 
- from active backpropagation.
-
-__Disadvantage__:
-
--  Output not constant ## check
 
 ### Exponential Linear Units, ELU
 
@@ -187,19 +144,6 @@ Sigmoid function appears in the output layers of the DL architectures, and they 
 
 The main reason why we use sigmoid function is because it exists between (0 to 1)
 
-__Advantages__:
-
-+ Simple and smooth curve
-+ Clear predictions
-+ Can be used in any layer including the output layer
-
-__Disadvantages__:
-
-- Non-Zero centric- for large negative and positive values the output is positive and in opposite directions but 
-between [0,1] which makes it difficult to calculate gradient for such small values. 
-- Vanishing Gradient- the change in predicted values for large positive numbers is infinitesimal.
-- The calculation is computationally complex for large networks.
-
 Sigmoid AF suffers major drawbacks which include sharp damp gradients during backpropagation from deeper hidden layers to the input layers which make it slow so Hard sigmoid function solve this problem
 
 Usually used in output layer
@@ -233,11 +177,6 @@ f (x_i) = \frac{x_i}{\sum_{j} x_j}
 The softmax function is also a type of sigmoid non-linear function but is handy when we are trying to handle classification problems.
 
 Usually used when trying to handle multiple classes. It is a form of logistic regression that normalizes an input value into a vector of values that follows a probability distribution whose total sums up to 1. Neural networks model classifies the instance as a class that have an index of the maximum output.
-
-__Advantange__:
-
-+ Multi-dimensional classification
-+ Generally used as output neuron
 
 ### Swish
 ```math
