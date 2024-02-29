@@ -25,10 +25,14 @@ In supervised learning, there are two main types of loss functions — these cor
 
 | Problem Type | Output type | Loss function |
 | --- | --- | --- |
-| Regression | Numerical value | [Mean Squared Error (MSE)](#mean-squared-error-mse) |
+| Regression | Numerical value | [Mean Squared Error (MSE)](#mean-squared-error-mse), [Mean Absolute Error (MAE)](#mean-absolute-error-mae), Huber loss, Log-cosh loss, Quantile loss|
 | Classification | Binary outcome | [Binary Cross Entropy](#binary-cross-entropylog-loss) |
 | Classification | Single label, multiple classes | [Cross Entropy](#categorical-cross-entropy-loss) |
 | Classification | Multiple labels, multiple classes | [Binary Cross Entropy](#binary-cross-entropylog-loss) |
+| Object detection | Boxes | IoU loss, Generalized IoU loss (GIoU loss), Smooth L1 loss, Focal loss | 
+| Face recognition | ... | Contrastive loss, Triplet loss, Center loss, Angular softmax loss (A-Softmax loss), Additive margin softmax loss (AM-Softmax loss), Additive angular margin loss (ArcFace loss) |
+| Unsupervised learning | ... | [Mean Squared Error (MSE)](#mean-squared-error-mse), Distance error, Reconstruction error, Negative variance |
+
 
 ### Mean Squared Error (MSE)
 
