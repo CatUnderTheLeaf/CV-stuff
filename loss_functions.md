@@ -7,7 +7,7 @@ This equation represents how a neural network processes the input data at each l
 ```
 `y` - output value, `x` - input values, `wT` - weights, `b` - bias
 
-A __loss function__ is a function that compares the target and predicted output values; measures how well the neural network models the training data. When training, we aim to minimize this loss between the predicted and target outputs.
+A __loss function__ is a function that compares the target and predicted output values. It’s a method of evaluating how well your algorithm models your dataset. If your predictions are totally off, your loss function will output a higher number. If they’re pretty good, it’ll output a lower number. As you change pieces of your algorithm to try and improve your model, your loss function will tell you if you’re getting anywhere.
 
 The hyperparameters are adjusted to minimize the average loss — we find the weights `wT` and biases `b` that minimize the value of `J` (average loss).
 
@@ -29,9 +29,9 @@ In supervised learning, there are two main types of loss functions — these cor
 | Classification | Binary outcome | [Binary Cross Entropy](#binary-cross-entropylog-loss) |
 | Classification | Single label, multiple classes | [Cross Entropy](#categorical-cross-entropy-loss) |
 | Classification | Multiple labels, multiple classes | [Binary Cross Entropy](#binary-cross-entropylog-loss) |
-| Object detection | Boxes | IoU loss, Generalized IoU loss (GIoU loss), Smooth L1 loss, Focal loss | 
+| Object detection | Boxes | [IoU loss](#iou-loss-function), Generalized IoU loss (GIoU loss), Smooth L1 loss, Focal loss | 
 | Face recognition | ... | Contrastive loss, Triplet loss, Center loss, Angular softmax loss (A-Softmax loss), Additive margin softmax loss (AM-Softmax loss), Additive angular margin loss (ArcFace loss) |
-| Unsupervised learning | ... | [Mean Squared Error (MSE)](#mean-squared-error-mse), Distance error, Reconstruction error, Negative variance |
+| Unsupervised learning | Numerical value | [Mean Squared Error (MSE)](#mean-squared-error-mse), Distance error, Reconstruction error, Negative variance |
 
 
 ### Mean Squared Error (MSE)
@@ -62,6 +62,17 @@ It also has some disadvantages; as the average distance approaches 0, gradient d
 Because of this, a loss function called a __Huber Loss__ was developed, which has the advantages of both MSE and MAE.
 > If the absolute difference between the actual and predicted value is less than or equal to a threshold value, 𝛿, then MSE is applied. Otherwise — if the error is sufficiently large — MAE is applied.
 
+### Likelihood loss
+
+The likelihood function is also relatively simple, and is commonly used in classification problems. The function takes the predicted probability for each input example and multiplies them. And although the output isn’t exactly human-interpretable, it’s useful for comparing models.
+
+```math
+
+L = \frac{1}{n}\prod_{i=1}^{n} (y_i*p_i + (1 - y_i)*(1 - p_i))
+```
+
+For example, consider a model that outputs probabilities of [0.4, 0.6, 0.9, 0.1] for the ground truth labels of [0, 1, 1, 0]. The likelihood loss would be computed as (0.6) * (0.6) * (0.9) * (0.9) = 0.2916. Since the model outputs probabilities for TRUE (or 1) only, when the ground truth label is 0 we take (1-p) as the probability. In other words, we multiply the model’s outputted probabilities together for the actual outcomes.
+
 ### Binary Cross-Entropy/Log Loss
 
 This is the loss function used in binary classification models — where the model takes in an input and has to classify it into one of two pre-set categories.
@@ -81,7 +92,20 @@ In cases where the number of classes is greater than two, we utilize categorical
 
 ```math
 
-CCE Loss = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m} y_ij*\log(p_i)
+CCE Loss = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m} y_{ij}*\log(p_i)
 ```
 
 The most commonly used loss function in image classification is cross-entropy loss/log loss (binary for classification between 2 classes and sparse categorical for 3 or more), where the model outputs a vector of probabilities that the input image belongs to each of the pre-set categories. This output is then compared to the actual output, represented by a vector of equal size, where the correct category has a probability of 1 and all others have a probability of 0.
+
+### IoU loss function
+
+Intuitively, IoU loss maximizes the coincidence between the predicted box and the ground truth box. 
+
+```math
+
+L IoU = -ln\frac{I}{U}
+```
+
+`I` is the intersection area of two boxes, `U` is the union area of two boxes.
+
+From the formula point of view, when calculating the area of intersection and union of two boxes, four variables of measuring each box are used at the same time. Therefore, this loss function regards a box as a whole for training, and can get more accurate predicted box. In addition, regardless of the scale of the ground truth, IoU is normalized to [0, 1], which can prevent the model from focusing too much on large objects and ignoring small ones. Use of IoU loss not only makes the location more accurate, but also speeds up the convergence rate.
