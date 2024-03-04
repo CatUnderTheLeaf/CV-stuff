@@ -2,7 +2,7 @@
 
 ### Gradient Descent
 
-In machine learning , Gradient Descent is a star player. It’s an optimization algorithm used to minimize a function by iteratively moving towards the steepest descent as defined by the negative of the gradient. Like in the picture, imagine you’re at the top of a mountain, and your goal is to reach the lowest point. Gradient Descent helps you find the best path down the hill.
+In machine learning, Gradient Descent is a star player. It’s an optimization algorithm used to minimize a function by iteratively moving towards the steepest descent as defined by the negative of the gradient. Like in the picture, imagine you’re at the top of a mountain, and your goal is to reach the lowest point. Gradient Descent helps you find the best path down the hill.
 
 The beauty of Gradient Descent is its simplicity and elegance. Here’s how it works, you start with a random point on the function you’re trying to minimize, for example a random starting point on the mountain. Then, you calculate the gradient (slope) of the function at that point. In the mountain analogy, this is like looking around you to find the steepest slope. Once you know the direction, you take a step downhill in that direction, and then you calculate the gradient again. Repeat this process until you reach the bottom.
 
@@ -95,7 +95,30 @@ RMSprop (Root Mean Square Propagation) modifies Adagrad to address its radically
 It works well in online and non-stationary settings and has been found to be an effective and practical optimization algorithm for neural networks.
 
 ### Adam (Adaptive Moment Estimation)
-Adam combines ideas from both Momentum and RMSprop. It computes adaptive learning rates for each parameter.
-Adam is often considered as a default optimizer due to its effectiveness in a wide range of applications. It’s particularly good at solving problems with noisy or sparse gradients.
+Adam combines ideas from both Momentum and RMSprop. It is often considered as a default optimizer due to its effectiveness in a wide range of applications. It’s particularly good at solving problems with noisy or sparse gradients.
 
+At its core, Adam is designed to adapt to the characteristics of the data. It does this by maintaining individual learning rates for each parameter in your model. These rates are adjusted as the training progresses, based on the data it encounters.
+
+Think of it as if you’re driving a car over different terrains. In some places, you accelerate (when the path is clear and straight), and in others, you decelerate (when the path gets twisty or rough). Adam modifies its speed (the learning rate_ based on the road (the gradient’s nature) ahead.
+
+Indeed, the algorithm can remember the previous actions (gradients), and the new actions are guided by the previous ones. Therefore, Adams keeps track of the gradients from previous steps, allowing it to make informed adjustments to the parameters. This memory isn’t just a simple average; it’s a sophisticated combination of recent and past gradient information, giving more weight to the recent.
+
+Moreover, in areas where the gradient (the slope of the loss function) changes rapidly or unpredictably, Adam takes smaller, more cautious steps. This helps avoid overshooting the minimum. Instead, in areas where the gradient changes slowly or predictably, it takes larger steps. This adaptability is key to Adam’s efficiency, as it navigates the loss landscape more intelligently than algorithms with a fixed step size.
+
+#### Why Opt for Adam?
+
+- Dealing with Sparse Data - Adam is particularly effective when working with data that leads to sparse gradients. This situation is common in models with large embedding layers or when dealing with text data in natural language processing tasks.
+- Training Large-Scale Models - Adam is well-suited for training models with a large number of parameters, such as deep neural networks. Its adaptive learning rate helps navigate the complex optimization landscapes of such models efficiently. However, this is not always the case, as we can see when we applied Adam to Linear Regression.
+ - Achieving Rapid Convergence - When we don’t have much time for the convergence to happen, Adam comes to help. This is thanks to its adaptive learning, which guarantees a faster convergence compared to its rival SGD.
+ - For Online and Batch Training - It’s versatile enough to be used in both online learning scenarios (where the model is updated continuously as new data arrives) and batch learning.
+
+#### Addressing Adam’s Limitations
+
+ - Tuning Hyperparameters - While Adam is less sensitive to learning rate changes compared to other optimizers, choosing an appropriate initial learning rate is still crucial. A too-high learning rate may lead to instability, while too low a rate can slow down the training process.
+The default values of β1​ and β2​ (typically 0.9 and 0.999, respectively) work well in most cases, but in some scenarios, adjusting them can yield better results.
+ - Handling Noisy Data and Outliers - While Adam is generally robust to noisy data, extreme outliers or highly noisy datasets might impact its performance. Preprocessing data to remove or diminish the impact of outliers can be beneficial.
+ - Choice of Loss Function - The efficiency of Adam can vary with different loss functions. Make sure that the loss function resonates with the problem you are solving, and experiment with a few of them to see which one works best.
+ - Computational Considerations - Adam typically requires more memory than simple gradient descent algorithms because it maintains moving averages for each parameter. This should be considered when working with very large models or limited computational resources.
+
+-----
 Each of these variants has its own strengths and is suited for specific types of problems. Their development reflects the ongoing effort in the machine learning community to refine and enhance optimization algorithms to achieve better and faster results. Understanding these variants and their appropriate applications is crucial for anyone looking to delve deeper into machine learning optimization techniques.
