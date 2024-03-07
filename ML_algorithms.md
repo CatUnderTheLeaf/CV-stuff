@@ -30,7 +30,7 @@ Suppose we want to predict the price of a house based on its square footage. We 
 ### How Linear Regression Works
 Linear regression works by finding the best-fit line through the data. The best-fit line is the line that minimizes the sum of the squared residuals (SSE). The residual is the difference between the predicted value and the actual value.
 
-![linear_regression](../images/linear_reg.svg)
+![linear_regression](images/linear_reg.svg)
 
 To find the best-fit line, linear regression uses an algorithm called ordinary least squares (OLS). OLS works by iteratively adjusting the parameters of the linear equation until the SSE is minimized.
 
