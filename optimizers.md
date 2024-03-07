@@ -1,8 +1,14 @@
 # Optimization algorithms
 
+| Algorithm | Benefits | Disadvantages |
+| --------- | -------- | ------------- |
+| [Gradient Descent](#gradient-descent) | + Generality: can be applied to almost any function | - Size of the learning rate: if too small, it might take a long time to reach the bottom. If it’s too large, you might overshoot the lowest point |
+| [Stochastic Gradient Descent](#stochastic-gradient-descent) | + Speed: By using only a small subset of data at a time, SGD can make rapid progress in reducing the loss, especially for large datasets<br> + Escape from Local Minima: The randomness helps SGD to potentially escape local minima, a common problem in complex optimization problems<br> + Online Learning: SGD is well-suited for online learning, where the model needs to be updated as new data comes in, due to its ability to update the model incrementally | - Variability in the path to convergence: The algorithm doesn’t smoothly descend towards the minimum; rather, it takes a more zigzag path, which can sometimes make the convergence process appear erratic |
+
+
 ### Gradient Descent
 
-In machine learning, Gradient Descent is a star player. It’s an optimization algorithm used to minimize a function by iteratively moving towards the steepest descent as defined by the negative of the gradient. Like in the picture, imagine you’re at the top of a mountain, and your goal is to reach the lowest point. Gradient Descent helps you find the best path down the hill.
+In machine learning, Gradient Descent is a star player. It’s an optimization algorithm used to minimize a function by iteratively moving towards the steepest descent as defined by the negative of the gradient. Imagine you’re at the top of a mountain, and your goal is to reach the lowest point. Gradient Descent helps you find the best path down the hill.
 
 The beauty of Gradient Descent is its simplicity and elegance. Here’s how it works, you start with a random point on the function you’re trying to minimize, for example a random starting point on the mountain. Then, you calculate the gradient (slope) of the function at that point. In the mountain analogy, this is like looking around you to find the steepest slope. Once you know the direction, you take a step downhill in that direction, and then you calculate the gradient again. Repeat this process until you reach the bottom.
 
