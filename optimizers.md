@@ -1,10 +1,46 @@
 # Optimization algorithms
 
+**Gradient-based optimizers**:
+- [Gradient Descent](#gradient-descent)
+- [Stochastic Gradient Descent](#stochastic-gradient-descent)
+- [Mini-Batch Gradient Descent](#mini-batch-gradient-descent)
+
+**Momentum-Based Optimizers**:
+- [Momentum SGD](#momentum-sgd)
+- [Nesterov Accelerated Gradient (NAG)](#nesterov-accelerated-gradient-nag)
+
+**Adaptive Learning Rate Optimizers**:
+- [Adaptive Gradient (Adagrad)](#adaptive-gradient-adagrad)
+- [RMSprop](#rmsprop)
+- [Adam (Adaptive Moment Estimation)](#adam-adaptive-moment-estimation)
+
+**Population-Based Optimizers**:
+- [Genetic Algorithms](#genetic-algorithms)
+- [Particle Swarm Optimization (PSO)](#particle-swarm-optimization-pso)
+
+**Quasi-Newton Optimizers**:
+- [Limited Memory Broyden Fletcher Goldfarb Shanno (L-BFGS)](#limited-memory-broyden-fletcher-goldfarb-shanno-l-bfgs)
+- [Newton’s Method](#newtons-method)
+
+[What is the Learning Rate?](#learning-rate)
+
+**General guidelines that may help you make an informed decision**:
+- If you are **new** to neural network training or want a **simple and reliable** optimizer, you can start with SGD, or mini-batch gradient descent.
+- If you want to **speed up** your training process and **avoid getting stuck** in local minima or plateaus, you can try momentum-based optimizers such as momentum or NAG.
+- If you want to **fine-tune your learning rate** for each parameter and achieve more **stable results**, you can try adaptive learning rate optimizers such as Adagrad, RMSprop, or Adam.
+- If you have a **small-scale problem** or want to achieve **high accuracy and efficiency**, you can try second-order optimizers such as Newton’s method or L-BFGS.
+- If you want to explore a **diverse and complex solution space**, you can try population-based optimizers such as genetic algorithms or PSO.
+
 | Algorithm | Benefits | Disadvantages |
 | --------- | -------- | ------------- |
-| [Gradient Descent](#gradient-descent) | + Generality: can be applied to almost any function | - Size of the learning rate: if too small, it might take a long time to reach the bottom. If it’s too large, you might overshoot the lowest point |
-| [Stochastic Gradient Descent](#stochastic-gradient-descent) | + Speed: By using only a small subset of data at a time, SGD can make rapid progress in reducing the loss, especially for large datasets<br> + Escape from Local Minima: The randomness helps SGD to potentially escape local minima, a common problem in complex optimization problems<br> + Online Learning: SGD is well-suited for online learning, where the model needs to be updated as new data comes in, due to its ability to update the model incrementally | - Variability in the path to convergence: The algorithm doesn’t smoothly descend towards the minimum; rather, it takes a more zigzag path, which can sometimes make the convergence process appear erratic |
-
+| [Gradient Descent](#gradient-descent) | + Generality: can be applied to almost any function<br> + Simplicity and Ease of Implementation: Despite its effectiveness, GD remains relatively simple to understand and implement | - Size of the learning rate: if too small, it might take a long time to reach the bottom. If it’s too large, you might overshoot the lowest point<br> - Risk of Local Minima and Saddle Points: In complex models, SGD can get stuck in local minima or saddle points, especially in high-dimensional spaces. |
+| [Stochastic Gradient Descent](#stochastic-gradient-descent) | + Scalability: Since it updates parameters using only a single data point (or a small batch) at a time, it is much less memory-intensive than algorithms requiring the entire dataset for each update<br> + Speed: By using only a small subset of data at a time, SGD can make rapid progress in reducing the loss, especially for large datasets<br> + Escape from Local Minima: The randomness helps SGD to potentially escape local minima, a common problem in complex optimization problems<br> + Online Learning: SGD is well-suited for online learning, where the model needs to be updated as new data comes in, due to its ability to update the model incrementally<br> + Handling Non-Static Datasets: For datasets that change over time, SGD’s incremental update approach can adjust to these changes more effectively than batch methods<br> + Improved Generalization: By updating the model frequently with a high degree of variance, SGD can often lead to models that generalize better on unseen data. This is because the algorithm is less likely to overfit to the noise in the training data | - Choosing the Right Learning Rate: Same as Gradient Descent<br> - Dealing with Noisy Updates:  The stochastic nature of SGD leads to noisy updates, which can cause the algorithm to be less stable and take longer to converge<br> - Risk of Local Minima and Saddle Points: Same as Gradient Descent<br> - Sensitivity to Feature Scaling: SGD is sensitive to the scale of the features, and having features on different scales can make the optimization process inefficient<br> - Hyperparameter Tuning: SGD requires careful tuning of hyperparameters, not just the learning rate but also parameters like momentum and the size of the mini-batch<br> - Overfitting: Like any machine learning algorithm, there’s a risk of overfitting, where the model performs well on training data but poorly on unseen data |
+| [Mini-Batch Gradient Descent](#mini-batch-gradient-descent) | + More stable convergence: Instead of using the entire dataset (as in batch GD) or a single sample (as in SGD), it uses a mini-batch of samples, which reduces the variance of the parameter updates<br> + More computationally efficient: It can also take advantage of optimized matrix operations | - same? |
+| [Momentum SGD](#momentum-sgd) | + Faster convergence and reduces oscillations: It does this by adding a fraction of the previous update vector to the current update | - same? |
+| [Nesterov Accelerated Gradient (NAG)](#nesterov-accelerated-gradient-nag) | + Speed up convergence and improve the performance of the algorithm: makes a more informed update by calculating the gradient of the future approximate position of the parameters | - same? |
+| [Adaptive Gradient (Adagrad)](#adaptive-gradient-adagrad) | + Adapts the learning rate to each parameter, giving parameters that are updated more frequently a lower learning rate | - Radically diminishing learning rates |
+| [RMSprop](#rmsprop) | + Addresses radically diminishing learning rates of Adagrad. It uses a moving average of squared gradients to normalize the gradient | - same? |
+| [Adam (Adaptive Moment Estimation)](#adam-adaptive-moment-estimation) | + Dealing with Sparse Data: is particularly effective when working with data that leads to sparse gradients<br> + Training Large-Scale Models: Its adaptive learning rate helps navigate the complex optimization landscapes of such models efficiently<br> + Achieving Rapid Convergence: adaptive learning guarantees a faster convergence compared to its rival SGD<br> + For Online and Batch Training | - Tuning Hyperparameters: choosing an appropriate initial learning rate is still crucial. A too-high learning rate may lead to instability, while too low a rate can slow down the training process<br> - Handling Noisy Data and Outliers: extreme outliers or highly noisy datasets might impact its performance<br> - Choice of Loss Function: The efficiency of Adam can vary with different loss functions<br> - Computational Considerations: requires more memory than simple gradient descent algorithms because it maintains moving averages for each parameter
 
 ### Gradient Descent
 
@@ -53,33 +89,6 @@ However, the stochastic nature also introduces variability in the path to conver
 - Hyperparameter Tuning: SGD requires careful tuning of hyperparameters, not just the learning rate but also parameters like momentum and the size of the mini-batch. Utilize grid search, random search, or more advanced methods like Bayesian optimization to find the optimal set of hyperparameters.
 - Overfitting: Like any machine learning algorithm, there’s a risk of overfitting, where the model performs well on training data but poorly on unseen data. Use regularization techniques such as L1 or L2 regularization, and validate the model using a hold-out set or cross-validation.
 
-### Learning Rate
-
-One of the most crucial hyperparameters in the Stochastic Gradient Descent (SGD) algorithm is the learning rate. This parameter can significantly impact the performance and convergence of the model. Understanding and choosing the right learning rate is a vital step in effectively employing SGD.
-
-At this point you should have an idea of what learning rate is, but let’s better define it for clarity. The learning rate in SGD determines the size of the steps the algorithm takes towards the minimum of the loss function. It’s a scalar that scales the gradient, dictating how much the weights in the model should be adjusted during each update. If you visualize the loss function as a valley, the learning rate decides how big a step you take with each iteration as you walk down the valley.
-
-#### Too High Learning Rate
-If the learning rate is too high, the steps taken might be too large. This can lead to overshooting the minimum, causing the algorithm to diverge or oscillate wildly without finding a stable point.
-Think of it as taking leaps in the valley and possibly jumping over the lowest point back and forth.
-
-#### Too Low Learning Rate
-On the other hand, a very low learning rate leads to extremely small steps. While this might sound safe, it significantly slows down the convergence process.
-In a worst-case scenario, the algorithm might get stuck in a local minimum or even stop improving before reaching the minimum.
-Imagine moving so slowly down the valley that you either get stuck or it takes an impractically long time to reach the bottom.
-
-#### Finding the Right Balance
-The ideal learning rate is neither too high nor too low but strikes a balance, allowing the algorithm to converge efficiently to the global minimum.
-Typically, the learning rate is chosen through experimentation and is often set to decrease over time. This approach is called learning rate annealing or scheduling.
-
-#### Learning Rate Scheduling
-Learning rate scheduling involves adjusting the learning rate over time. Common strategies include:
-
-- Time-Based Decay: The learning rate decreases over each update.
-- Step Decay: Reduce the learning rate by some factor after a certain number of epochs.
-- Exponential Decay: Decrease the learning rate exponentially.
-- Adaptive Learning Rate: Methods like AdaGrad, RMSProp, and Adam adjust the learning rate automatically during training.
-
 ### Mini-Batch Gradient Descent
 This is a blend of batch gradient descent and stochastic gradient descent. Instead of using the entire dataset (as in batch GD) or a single sample (as in SGD), it uses a mini-batch of samples.
 It reduces the variance of the parameter updates, which can lead to more stable convergence. It can also take advantage of optimized matrix operations, which makes it more computationally efficient.
@@ -125,6 +134,49 @@ The default values of β1​ and β2​ (typically 0.9 and 0.999, respectively) 
  - Handling Noisy Data and Outliers - While Adam is generally robust to noisy data, extreme outliers or highly noisy datasets might impact its performance. Preprocessing data to remove or diminish the impact of outliers can be beneficial.
  - Choice of Loss Function - The efficiency of Adam can vary with different loss functions. Make sure that the loss function resonates with the problem you are solving, and experiment with a few of them to see which one works best.
  - Computational Considerations - Adam typically requires more memory than simple gradient descent algorithms because it maintains moving averages for each parameter. This should be considered when working with very large models or limited computational resources.
+
+### Genetic Algorithms
+
+Genetic algorithms are inspired by the process of natural selection. They create a population of potential solutions (parameter sets) and iteratively evolve them over generations by selecting, recombining, and mutating individuals.
+
+### Particle Swarm Optimization (PSO)
+
+PSO simulates the behavior of particles in a search space. Each particle represents a potential solution, and particles adjust their positions based on their own best-known solution and the collective best-known solution among all particles.
+
+### Limited Memory Broyden Fletcher Goldfarb Shanno (L-BFGS)
+L-BFGS is an approximation of Newton’s method that avoids the computational cost of calculating and inverting the full Hessian matrix. Instead, it maintains a limited-memory approximation of the Hessian. L-BFGS is more memory-efficient and still converges relatively quickly.
+
+### Newton’s Method
+Newton’s method is a classic second-order optimizer that uses the Hessian matrix, which is the matrix of second derivatives of the loss function, to find the optimal parameters. It can converge very quickly, but it requires computing and inverting the Hessian matrix, which can be very costly and impractical for large-scale problems.
+
+------------------
+
+### Learning Rate
+
+One of the most crucial hyperparameters in the Stochastic Gradient Descent (SGD) algorithm is the learning rate. This parameter can significantly impact the performance and convergence of the model. Understanding and choosing the right learning rate is a vital step in effectively employing SGD.
+
+At this point you should have an idea of what learning rate is, but let’s better define it for clarity. The learning rate in SGD determines the size of the steps the algorithm takes towards the minimum of the loss function. It’s a scalar that scales the gradient, dictating how much the weights in the model should be adjusted during each update. If you visualize the loss function as a valley, the learning rate decides how big a step you take with each iteration as you walk down the valley.
+
+#### Too High Learning Rate
+If the learning rate is too high, the steps taken might be too large. This can lead to overshooting the minimum, causing the algorithm to diverge or oscillate wildly without finding a stable point.
+Think of it as taking leaps in the valley and possibly jumping over the lowest point back and forth.
+
+#### Too Low Learning Rate
+On the other hand, a very low learning rate leads to extremely small steps. While this might sound safe, it significantly slows down the convergence process.
+In a worst-case scenario, the algorithm might get stuck in a local minimum or even stop improving before reaching the minimum.
+Imagine moving so slowly down the valley that you either get stuck or it takes an impractically long time to reach the bottom.
+
+#### Finding the Right Balance
+The ideal learning rate is neither too high nor too low but strikes a balance, allowing the algorithm to converge efficiently to the global minimum.
+Typically, the learning rate is chosen through experimentation and is often set to decrease over time. This approach is called learning rate annealing or scheduling.
+
+#### Learning Rate Scheduling
+Learning rate scheduling involves adjusting the learning rate over time. Common strategies include:
+
+- Time-Based Decay: The learning rate decreases over each update.
+- Step Decay: Reduce the learning rate by some factor after a certain number of epochs.
+- Exponential Decay: Decrease the learning rate exponentially.
+- Adaptive Learning Rate: Methods like AdaGrad, RMSProp, and Adam adjust the learning rate automatically during training.
 
 -----
 Each of these variants has its own strengths and is suited for specific types of problems. Their development reflects the ongoing effort in the machine learning community to refine and enhance optimization algorithms to achieve better and faster results. Understanding these variants and their appropriate applications is crucial for anyone looking to delve deeper into machine learning optimization techniques.
