@@ -19,7 +19,7 @@
 
 ### Classification with transfer learning
 
-Before approaching object detectors I decided to work on classificators. Unfortunately I have not found a good dataset consisting only of cars/tracks/pedestrians/cyclists/etc. for such task in TensorFlow Datasets . But there are datasets for object detection in autonomous driving sphere. So I transformed object detection dataset into classification dataset. I applied Data Augmentation, so my model is robust to changes in input data such as lighting, cropping, and orientation. For transfer learning I used `mobilenet-v2` feature vector from TensorFlow Hub with frozen weights and just added `Dense` layer with my 8 classes ('Car', 'Van', 'Truck', 'Pedestrian', 'Person_sitting', 'Cyclist', 'Tram' and 'Misc') [Read more](../main/image_classification/classification_transfer_learning.ipynb)
+Before approaching object detectors I decided to work on classificators. Unfortunately I have not found a good dataset consisting only of cars/tracks/pedestrians/cyclists/etc. for such task in TensorFlow Datasets . But there are datasets for object detection in autonomous driving sphere. So I transformed object detection dataset into classification dataset. I applied Data Augmentation, so my model is robust to changes in input data such as lighting, cropping, and orientation. For transfer learning I used `mobilenet-v2` feature vector from TensorFlow Hub with frozen weights and just added `Dense` layer with my 8 classes ('Car', 'Van', 'Truck', 'Pedestrian', 'Person_sitting', 'Cyclist', 'Tram' and 'Misc') [Read more](../main/image_classification/classification_kitti_ds.ipynb)
 
 ![Classification](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/image_classification/output.png)
 
