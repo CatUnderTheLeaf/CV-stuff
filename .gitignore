@@ -10,3 +10,4 @@ pedestrian_detection/images/cars/*
 pedestrian_detection/images/one/*
 pedestrian_detection/images/test/*
 pedestrian_detection/images/tunnel/*
+image_classification/dataset/*
