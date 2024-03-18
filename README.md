@@ -16,6 +16,7 @@
 6. Semantic and Instance Segmentation
 7. [Calibration](#calibration)
 8. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
+9. [Install Keras, Tensorflow and GPU support on WSL2](#wsl2-installation)
 
 ### Classification with transfer learning
 
@@ -85,3 +86,45 @@ When we take photos, all depth information is lost due to perspective projection
   <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/disparity_map.png" width="400" title="disparity map">
   <img src="https://github.com/CatUnderTheLeaf/scene_perception/blob/main/depth_image/images/side.png" width="400" title="pointcloud">
 </p>
+
+### WS2 Installation
+
+1. Install [WSL2](https://docs.microsoft.com/windows/wsl/install) and Ubuntu 22.04
+2. Open Ubuntu 22.04 in WSL2 and update Python and pip
+```
+sudo apt-get install python3
+sudo apt-get install pip
+```
+3. Install fresh [NVIDIA® GPU drivers](https://www.nvidia.com/drivers)
+4. Verify it with `nvidia-smi` command to see which version of CUDA to install (I first installed CUDA 12.3, but this command outputs that CUDA should be 12.4)
+5. Install right version of [CUDA Toolkit for WSL2](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local)
+6. Install right version of [cuDNN]([https://developer.nvidia.com/rdp/cudnn-download](https://developer.nvidia.com/cudnn-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)https://developer.nvidia.com/cudnn-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)
+7. Install `pip install tensorflow[and-cuda]`
+8. Edit `.bashrc`
+```
+# make sim link to cuda library for GPU usage
+# because it needs sim link instead of direct access to library file
+cd /usr/lib/wsl/lib
+sudo rm libcuda.so libcuda.so.1
+sudo ln -s libcuda.so.1.1 libcuda.so.1
+sudo ln -s libcuda.so.1 libcuda.so
+sudo ldconfig
+
+# Export path variables !!! VERY IMPORTANT !!!
+# Need to adapt to your python version:
+export CUDNN_PATH="$HOME/.local/lib/python3.10/site-packages/nvidia/cudnn"
+export LD_LIBRARY_PATH="$CUDNN_PATH/lib":"/usr/local/cuda/lib64"
+# ...
+export PATH="$PATH":"/usr/local/cuda/bin"
+
+cd
+```
+9. Check installation
+```
+python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+```
+10. Install Keras and check its version, should be >= 3.0.0
+```
+pip install --upgrade keras
+python3 -c "import keras; print(keras.__version__)"
+```
