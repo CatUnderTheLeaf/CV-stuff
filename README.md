@@ -89,18 +89,41 @@ When we take photos, all depth information is lost due to perspective projection
 
 ### WS2 Installation
 
+Configuration for GPU usage: Ubuntu 22.04(WSL2), Python 3.10, CUDA Toolkit 12.2, cuDNN 8.9.7.29, tensorflow 2.15
+
 1. Install [WSL2](https://docs.microsoft.com/windows/wsl/install) and Ubuntu 22.04
 2. Open Ubuntu 22.04 in WSL2 and update Python and pip
 ```
-sudo apt-get install python3
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python3 #version 3.10
 sudo apt-get install pip
+pip install pip==21.3.1 # this version doesn't hate installation
 ```
 3. Install fresh [NVIDIA® GPU drivers](https://www.nvidia.com/drivers)
-4. Verify it with `nvidia-smi` command to see which version of CUDA to install (I first installed CUDA 12.3, but this command outputs that CUDA should be 12.4)
-5. Install right version of [CUDA Toolkit for WSL2](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local)
-6. Install right version of [cuDNN]([https://developer.nvidia.com/rdp/cudnn-download](https://developer.nvidia.com/cudnn-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)https://developer.nvidia.com/cudnn-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)
-7. Install `pip install tensorflow[and-cuda]`
-8. Edit `.bashrc`
+4. Install [CUDA Toolkit 12.2 for WSL2](https://developer.nvidia.com/cuda-12-2-2-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local)
+5. Download [cuDNN v8.9.7 (December 5th, 2023), for CUDA 12.x for Ubuntu 22.04](https://developer.nvidia.com/rdp/cudnn-archive)
+6. Install cudnn
+```
+sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.7.29_1.0-1_amd64.deb
+sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.7.29/cudnn-local-08A7D361-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get install libcudnn8=8.9.7.29-1+cuda12.2
+sudo apt-get install libcudnn8-dev=8.9.7.29-1+cuda12.2
+```
+7. Install, create and activate `venv`
+```
+sudo apt install python3.10-venv
+
+python3 -m venv tensorflow2.15
+
+source tensorflow2.15/bin/activate
+```
+8. Install tensorrt with `python3 -m pip install --upgrade tensorrt` to install tensorrt 8.6.1 (without it there was an installation error)
+9. Finally install tensorflow with `pip install -U tensorflow[and-cuda]==2.15.0`
+
+
+
+10. Edit `.bashrc`
 ```
 # make sim link to cuda library for GPU usage
 # because it needs sim link instead of direct access to library file
