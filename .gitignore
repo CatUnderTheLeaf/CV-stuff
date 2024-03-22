@@ -12,3 +12,4 @@ pedestrian_detection/images/test/*
 pedestrian_detection/images/tunnel/*
 image_classification/dataset/*
 image_classification/scene_perception.code-workspace
+image_classification/models/*
