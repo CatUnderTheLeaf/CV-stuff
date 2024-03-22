@@ -21,6 +21,8 @@ Overfitting can be seen as the difference between the training and testing error
 
 > Note: for this technique to work, you need to make sure both parts are representative of your data. A good practice is to shuffle the order of the dataset before splitting.
 
+> The validation metrics are clearly better than the training metrics, the main factor is because layers like tf.keras.layers.BatchNormalization and tf.keras.layers.Dropout affect accuracy during training. They are turned off when calculating validation loss.
+
 ### How to prevent overfitting - Model & Data
 
 #### 1. Gather more data
