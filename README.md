@@ -16,7 +16,7 @@
 6. Semantic and Instance Segmentation
 7. [Calibration](#calibration)
 8. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
-9. [Install Keras, Tensorflow and GPU support on WSL2](#wsl2-installation)
+9. [Install Keras, Tensorflow and GPU support on WSL2](#ws2-installation)
 
 ### Classification with transfer learning
 
@@ -110,7 +110,7 @@ sudo apt-get update
 sudo apt-get install libcudnn8=8.9.7.29-1+cuda12.2
 sudo apt-get install libcudnn8-dev=8.9.7.29-1+cuda12.2
 ```
-7. Install, create and activate `venv`
+7. Install, create and activate `venv` (more user-friendly option to open your project in VS Code and there make virtualenvs)
 ```
 sudo apt install python3.10-venv
 
@@ -120,34 +120,40 @@ source tensorflow2.15/bin/activate
 ```
 8. Install tensorrt with `python3 -m pip install --upgrade tensorrt` to install tensorrt 8.6.1 (without it there was an installation error)
 9. Finally install tensorflow with `pip install -U tensorflow[and-cuda]==2.15.0`
-
-
-
 10. Edit `.bashrc`
 ```
-# make sim link to cuda library for GPU usage
-# because it needs sim link instead of direct access to library file
-cd /usr/lib/wsl/lib
-sudo rm libcuda.so libcuda.so.1
-sudo ln -s libcuda.so.1.1 libcuda.so.1
-sudo ln -s libcuda.so.1 libcuda.so
-sudo ldconfig
-
 # Export path variables !!! VERY IMPORTANT !!!
 # Need to adapt to your python version:
 export CUDNN_PATH="$HOME/.local/lib/python3.10/site-packages/nvidia/cudnn"
 export LD_LIBRARY_PATH="$CUDNN_PATH/lib":"/usr/local/cuda/lib64"
 # ...
 export PATH="$PATH":"/usr/local/cuda/bin"
-
-cd
 ```
-9. Check installation
+11. Check installation, should be 2.15.0 and `GPU` device listed
 ```
 python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
-10. Install Keras and check its version, should be >= 3.0.0
+12. Install Keras and check its version, should be >= 3.0.0
 ```
 pip install --upgrade keras
 python3 -c "import keras; print(keras.__version__)"
 ```
+> There are still errors with this installation:
+> 
+> E "Unable to register cuDNN/cuFFT/cuBLAS factory: Attempting to register factory for plugin cuDNN/cuFFT/cuBLAS when one has already been registered"
+> 
+> W "TF-TRT Warning: Could not find TensorRT"
+> 
+> I "could not open file to read NUMA node" - WSL2 is not build with NUMA support, as I understand
+> 
+> Previously needed this with Tensorflow 2.13
+> ```
+> # make sim link to cuda library for GPU usage
+> # because it needs sim link instead of direct access to library file
+> cd /usr/lib/wsl/lib
+> sudo rm libcuda.so libcuda.so.1
+> sudo ln -s libcuda.so.1.1 libcuda.so.1
+> sudo ln -s libcuda.so.1 libcuda.so
+> sudo ldconfig
+> cd
+> ```
