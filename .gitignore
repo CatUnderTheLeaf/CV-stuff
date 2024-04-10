@@ -14,3 +14,4 @@ image_classification/dataset/*
 image_classification/dataset_old/*
 image_classification/scene_perception.code-workspace
 image_classification/models/*
+image_classification/logs/*
