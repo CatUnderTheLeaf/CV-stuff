@@ -13,6 +13,6 @@ pedestrian_detection/images/tunnel/*
 image_classification/dataset/*
 image_classification/dataset_old/*
 image_classification/scene_perception.code-workspace
-image_classification/models/*
 image_classification/logs/*
 image_classification/.checkpoints/*
+image_classification/models_dir/*
