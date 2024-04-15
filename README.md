@@ -3,7 +3,7 @@
 ## Contents
 
 1. Object Classification
-   - [Classification of autonomous driving objects using transfer learning](#classification-with-transfer-learning)
+   - [Classification of autonomous driving objects using transfer learning & fine-tuning](#classification-with-transfer-learning--fine-tuning)
 2. Object Detection
    - [Run inference with pretrained object-detection models](#running-object-detector-inference)
 3. Lane Detection:
@@ -18,11 +18,28 @@
 8. [Generate a PointCloud from stereo-pair image](#generate-a-pointcloud-from-stereo-pair-image)
 9. [Install Keras, Tensorflow and GPU support on WSL2](#ws2-installation)
 
-### Classification with transfer learning
+### Classification with transfer learning & fine-tuning
 
-Before approaching object detectors I decided to work on classificators. Unfortunately I have not found a good dataset consisting only of cars/tracks/pedestrians/cyclists/etc. for such task in TensorFlow Datasets . But there are datasets for object detection in autonomous driving sphere. So I transformed object detection dataset into classification dataset. I applied Data Augmentation, so my model is robust to changes in input data such as lighting, cropping, and orientation. For transfer learning I used `mobilenet-v2` feature vector from TensorFlow Hub with frozen weights and just added `Dense` layer with my 8 classes ('Car', 'Van', 'Truck', 'Pedestrian', 'Person_sitting', 'Cyclist', 'Tram' and 'Misc') [Read more](../main/image_classification/classification_kitti_ds.ipynb)
+Before approaching object detectors I decided to work on classificators. Unfortunately I have not found a good dataset consisting only of cars/tracks/pedestrians/cyclists/etc. for such task in TensorFlow Datasets. But there are datasets for object detection in autonomous driving sphere. So I downloaded Kitti object detection dataset and transformed it into a classification dataset:
+- 14136 files which I splitted into training and validation datasets with 0.2 split
+- 3958 files in the test dataset
+- thera are 8 classes ['Car', 'Cyclist', 'Misc', 'Pedestrian', 'Person_sitting', 'Tram', 'Truck', 'Van'], I had to reduce number of car images, it was drastically large
 
-![Classification](https://github.com/CatUnderTheLeaf/scene_perception/blob/main/image_classification/output.png)
+![Data distribution](../main/image_classification/data_distribution.png)
+
+I applied random flip, rotation, translation and zoom for Data Augmentation, so my model is robust to changes in input data such as position, cropping, and orientation.
+
+I decided to use transfer learning & fine-tuning on a pre-trained model with my dataset. I used `Xception` model with frozen weights pre-trained on ImageNet dataset without top layer, added output layer with 8 neurons and `softmax` activation. Then I compiled this model with `Adam` optimizer and `Sparse Categorical Crossentropy` loss function and trained for 5 epochs with 0.001 learning rate. Then I unfroze 10 last layers of `Xception` model, reduced learning rate to 0.0001 and trained for additional 25 epochs:
+
+![loss and accuracy](../main/image_classification/loss_acc.png)
+
+I achieved 70% accuracy on test dataset:
+
+![predicted batch](../main/image_classification/output3.png)
+
+[Read more](../main/image_classification/classification_kitti_keras3.ipynb)
+
+
 
 ### Running object detector inference
 
