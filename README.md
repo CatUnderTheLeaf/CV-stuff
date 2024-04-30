@@ -1,10 +1,18 @@
-# Perception of a traffic scene
+# Deep learning and Computer Vision
 
 ## Contents
 
+0. Basic Deep Learning
+   - [ML algorithms](../main/ML_algorithms.md)
+   - [Activation functions](../main/activation_functions.md)
+   - [Loss functions](../main/loss_functions.md)
+   - [Optimizers](../main/optimizers.md)
+   - [Overfitting](../main/overfitting.md)
+   - [Regularization](../main/regularization.md)
 1. Object Classification
    - [Classification of autonomous driving objects using transfer learning & fine-tuning](#classification-with-transfer-learning--fine-tuning)
 2. Object Detection
+   - [Object detection algorithms](../main/object_detection/od_algorithms.md)
    - [Run inference with pretrained object-detection models](#running-object-detector-inference)
 3. Lane Detection:
    - [Lane Detection with OpenCV using perspective transformations](#lane-detection-with-perspective-transformations)
