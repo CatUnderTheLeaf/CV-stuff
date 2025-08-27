@@ -3,6 +3,12 @@ lane_detection/images/*
 *.zip
 *.7z
 *.p
+*.onnx
+*.h5
+*.tflite
+*.keras
+*.pb
+*.pth
 __pycache__
 DaimlerBenchmark/*
 pedestrian_detection/images/bus/*
@@ -16,3 +22,5 @@ image_classification/scene_perception.code-workspace
 image_classification/logs/*
 image_classification/.checkpoints/*
 image_classification/models_dir/*
+datasets/*
+latl/classification/ckpt_folder/*

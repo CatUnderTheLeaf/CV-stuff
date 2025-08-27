@@ -1,0 +1,57 @@
+No Fit
+Form Fit / Bodycon
+Slim Fit
+Tailored Fit
+Regular Fit
+Relaxed Fit
+Loose Fit
+Oversized Fit
+Baggy Fit
+No sleeves
+Strappy
+Sleeveless
+Cap Sleeve
+Short Sleeve
+Elbow Sleeve
+3/4 Sleeve
+Long Sleeve
+Extra Long Sleeve
+Cropped
+Waist Length
+Hip Length
+High Thigh
+Mid Thigh
+Tunic Length
+Above Knee
+Knee Length
+Below Knee
+Mid-Calf
+Ankle Length
+Full Length
+Floor Length
+Front opening FALSE
+Front opening TRUE
+No neck
+Crew Neck
+V-Neck
+Scoop Neck
+Square Neck
+Sweetheart Neck
+Boat Neck / Bateau
+Turtleneck
+Mock Neck
+Cowl Neck
+Halter Neck
+Off-the-Shoulder
+One-Shoulder
+Strapless / Bandeau
+Keyhole Neck
+Collared
+Plunging Neck
+Asymmetrical Neck
+collar FALSE
+collar TRUE
+
+but:42
+zip:54
+        

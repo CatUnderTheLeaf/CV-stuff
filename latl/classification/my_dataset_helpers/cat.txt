@@ -1,0 +1,111 @@
+Blazers and Tailoring: 625
+Single-Breasted Blazer
+Double-Breasted Blazer 48
+Vest 7
+Cropped Blazer
+---
+Knits & Hoodies:
+Turtleneck Sweater
+V-Neck sweater
+Sweater
+Open Cowl Neck Sweater
+Cropped Sweatshirt
+Sweatshirt
+Zipped Sweatshirt 
+Pullover Hoodie
+Zip Hoodie
+Cardigan
+V-Neck Cardigan
+Knit Vest
+---
+Shirts & Blouses: 1192
+Button-Up Shirt
+Tunic Shirt 2
+Peplum Blouse 2
+Formal Shirt
+Oversized Shirt
+Wrap Blouse 3
+---
+Tops: 239
+Tank Top 89
+Shell Top 53
+Tunic 9
+Bandeau 0
+Halter-neck Fitted Top 0
+Cold Shoulder 1
+Peplum Top 6
+Workout Tank 24
+Sports Bra 0
+Camisole 57
+---
+Casual T-shirts: 1208
+Henley Shirt 9
+V-neck T-shirt 39
+Polo Shirt
+Sleeveless T-shirt 16
+Slim-fit T-shirt
+Regular T-shirt
+Oversized T-shirt 47
+---
+Pants:
+Skinny or slim fit high waist
+Skinny or slim fit low waist
+Straight leg
+Wide leg high waist
+Wide leg low waist
+bootcut or flares high waist
+bootcut or flares low waist
+palazzo pants
+cropped pants
+distressed or ripped regular fit
+Baggy pants
+capri
+pleated pants high waist
+sweatpants
+leggings
+---
+Shorts:
+Denim Shorts
+Culottes
+Cargo shorts
+Tailored Shorts
+Bermuda Shorts
+Paperbag Shorts
+Biker Shorts
+Yoga shorts
+Lounge Shorts
+---
+Skirts:
+Maxi A-Line Skirt
+A-Line Skirt Short
+Pencil Skirt
+Pleated Skirt Long
+Pleated Skirt Short
+Wrap Skirt
+Tulip skirt
+Mini Skirt
+---
+Dresses:
+Slip Dress Short
+Slip Dress Long
+Maxi A-Line dress
+Maxi Form Ftting Dress
+Wrap Dress
+Bodycon Short Dress
+Shirt Dress Short
+Shirt Dress Long
+Smock dress Short
+Smock dress long
+mini dress
+Fit & Flare Dress
+Knit Dress
+Tiered Dress Long
+overall dress short
+overall dress long
+---
+Jumpsuits & Rompers:
+Tailored Jumpsuit
+Wide-Leg Jumpsuit
+Utility Jumpsuit
+Romper
+denim overall
