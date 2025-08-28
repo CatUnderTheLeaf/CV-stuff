@@ -24,3 +24,9 @@ image_classification/.checkpoints/*
 image_classification/models_dir/*
 datasets/*
 latl/classification/ckpt_folder/*
+events*
+variables*
+*.log
+flat*
+=0.2.0
+req.txt
