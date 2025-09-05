@@ -23,10 +23,12 @@ image_classification/logs/*
 image_classification/.checkpoints/*
 image_classification/models_dir/*
 datasets/*
-latl/classification/ckpt_folder/*
-events*
+# latl/classification/ckpt_folder/*
+# events*
 variables*
-*.log
+# *.log
+console_**
+logs_**
 flat*
 =0.2.0
 req.txt
